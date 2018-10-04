@@ -5,3 +5,6 @@ logs/
 .catkin_workspace
 trav.workspace.user
 trav.workspace
+.catkin_tools
+.gitgnore
+.rosinstall

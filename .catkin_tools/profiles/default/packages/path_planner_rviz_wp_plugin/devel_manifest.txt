@@ -1,8 +1,0 @@
-tradr-loc-map-nav/path_planner_rviz_wp_plugin
-/home/riccardo/Desktop/trav_nav_original/devel/.private/path_planner_rviz_wp_plugin/lib/libpath_planner_rviz_wp_plugin.so /home/riccardo/Desktop/trav_nav_original/devel/lib/libpath_planner_rviz_wp_plugin.so
-/home/riccardo/Desktop/trav_nav_original/devel/.private/path_planner_rviz_wp_plugin/lib/libpath_planner_rviz_wp_plugin_SIM3.so /home/riccardo/Desktop/trav_nav_original/devel/lib/libpath_planner_rviz_wp_plugin_SIM3.so
-/home/riccardo/Desktop/trav_nav_original/devel/.private/path_planner_rviz_wp_plugin/lib/libpath_planner_rviz_wp_plugin_SIM1.so /home/riccardo/Desktop/trav_nav_original/devel/lib/libpath_planner_rviz_wp_plugin_SIM1.so
-/home/riccardo/Desktop/trav_nav_original/devel/.private/path_planner_rviz_wp_plugin/lib/libpath_planner_rviz_wp_plugin_SIM2.so /home/riccardo/Desktop/trav_nav_original/devel/lib/libpath_planner_rviz_wp_plugin_SIM2.so
-/home/riccardo/Desktop/trav_nav_original/devel/.private/path_planner_rviz_wp_plugin/lib/pkgconfig/path_planner_rviz_wp_plugin.pc /home/riccardo/Desktop/trav_nav_original/devel/lib/pkgconfig/path_planner_rviz_wp_plugin.pc
-/home/riccardo/Desktop/trav_nav_original/devel/.private/path_planner_rviz_wp_plugin/share/path_planner_rviz_wp_plugin/cmake/path_planner_rviz_wp_pluginConfig-version.cmake /home/riccardo/Desktop/trav_nav_original/devel/share/path_planner_rviz_wp_plugin/cmake/path_planner_rviz_wp_pluginConfig-version.cmake
-/home/riccardo/Desktop/trav_nav_original/devel/.private/path_planner_rviz_wp_plugin/share/path_planner_rviz_wp_plugin/cmake/path_planner_rviz_wp_pluginConfig.cmake /home/riccardo/Desktop/trav_nav_original/devel/share/path_planner_rviz_wp_plugin/cmake/path_planner_rviz_wp_pluginConfig.cmake

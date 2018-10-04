@@ -1,5 +1,0 @@
-tradr-loc-map-nav/trajectory_control
-/home/riccardo/Desktop/trav_nav_original/devel/.private/trajectory_control/lib/trajectory_control/trajectory_control /home/riccardo/Desktop/trav_nav_original/devel/lib/trajectory_control/trajectory_control
-/home/riccardo/Desktop/trav_nav_original/devel/.private/trajectory_control/lib/pkgconfig/trajectory_control.pc /home/riccardo/Desktop/trav_nav_original/devel/lib/pkgconfig/trajectory_control.pc
-/home/riccardo/Desktop/trav_nav_original/devel/.private/trajectory_control/share/trajectory_control/cmake/trajectory_controlConfig.cmake /home/riccardo/Desktop/trav_nav_original/devel/share/trajectory_control/cmake/trajectory_controlConfig.cmake
-/home/riccardo/Desktop/trav_nav_original/devel/.private/trajectory_control/share/trajectory_control/cmake/trajectory_controlConfig-version.cmake /home/riccardo/Desktop/trav_nav_original/devel/share/trajectory_control/cmake/trajectory_controlConfig-version.cmake

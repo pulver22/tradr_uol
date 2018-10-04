@@ -1,9 +1,0 @@
-/home/riccardo/Desktop/trav_nav_original/build/catkin_tools_prebuild
-/home/riccardo/Desktop/trav_nav_original/devel/.private/catkin_tools_prebuild/setup.sh /home/riccardo/Desktop/trav_nav_original/devel/./setup.sh
-/home/riccardo/Desktop/trav_nav_original/devel/.private/catkin_tools_prebuild/setup.zsh /home/riccardo/Desktop/trav_nav_original/devel/./setup.zsh
-/home/riccardo/Desktop/trav_nav_original/devel/.private/catkin_tools_prebuild/_setup_util.py /home/riccardo/Desktop/trav_nav_original/devel/./_setup_util.py
-/home/riccardo/Desktop/trav_nav_original/devel/.private/catkin_tools_prebuild/env.sh /home/riccardo/Desktop/trav_nav_original/devel/./env.sh
-/home/riccardo/Desktop/trav_nav_original/devel/.private/catkin_tools_prebuild/setup.bash /home/riccardo/Desktop/trav_nav_original/devel/./setup.bash
-/home/riccardo/Desktop/trav_nav_original/devel/.private/catkin_tools_prebuild/lib/pkgconfig/catkin_tools_prebuild.pc /home/riccardo/Desktop/trav_nav_original/devel/lib/pkgconfig/catkin_tools_prebuild.pc
-/home/riccardo/Desktop/trav_nav_original/devel/.private/catkin_tools_prebuild/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig-version.cmake /home/riccardo/Desktop/trav_nav_original/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig-version.cmake
-/home/riccardo/Desktop/trav_nav_original/devel/.private/catkin_tools_prebuild/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig.cmake /home/riccardo/Desktop/trav_nav_original/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig.cmake

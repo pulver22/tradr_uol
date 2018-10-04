@@ -1,5 +1,0 @@
-tradr-simulation/vrep_ugv_plugin
-/home/riccardo/Desktop/trav_nav_original/devel/.private/vrep_ugv_plugin/lib/libv_repExtRos.so /home/riccardo/Desktop/trav_nav_original/devel/lib/libv_repExtRos.so
-/home/riccardo/Desktop/trav_nav_original/devel/.private/vrep_ugv_plugin/lib/pkgconfig/vrep_ugv_plugin.pc /home/riccardo/Desktop/trav_nav_original/devel/lib/pkgconfig/vrep_ugv_plugin.pc
-/home/riccardo/Desktop/trav_nav_original/devel/.private/vrep_ugv_plugin/share/vrep_ugv_plugin/cmake/vrep_ugv_pluginConfig.cmake /home/riccardo/Desktop/trav_nav_original/devel/share/vrep_ugv_plugin/cmake/vrep_ugv_pluginConfig.cmake
-/home/riccardo/Desktop/trav_nav_original/devel/.private/vrep_ugv_plugin/share/vrep_ugv_plugin/cmake/vrep_ugv_pluginConfig-version.cmake /home/riccardo/Desktop/trav_nav_original/devel/share/vrep_ugv_plugin/cmake/vrep_ugv_pluginConfig-version.cmake

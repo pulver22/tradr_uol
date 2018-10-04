@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(path_planner_rviz_wp_plugin)
 
+## Add support for C++11, supported in ROS Kinetic and newer
+add_definitions(-std=c++11)
 
 set(PKG_REQUIRED_COMPONENTS
   class_loader
@@ -41,8 +43,24 @@ else()
 endif()
 
 ## This plugin includes Qt widgets, so we must include Qt like so:
-find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
-include(${QT_USE_FILE})
+# find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+# include(${QT_USE_FILE})
+find_package(Qt5 COMPONENTS Core Gui Widgets Concurrent REQUIRED)
+# Find Qt5Core and Qt5Widgets
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+# For finding Qt includes
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
+include_directories(${Qt5Core_INCLUDE_DIRS})
+# find_package(Qt5Widgets REQUIRED)
+# set(QT_LIBRARIES Qt5::Widgets)
+# The Qt5Widgets_INCLUDES also includes the include directories for dependencies QtCore and QtGui
+# include_directories(${Qt5Widgets_INCLUDES})
+# We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt5.
+# add_definitions(${Qt5Widgets_DEFINITIONS})
+# Executables fail to build with Qt5 in the default configuration without -fPIE. We add that here.
+# set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 ## We also use Ogre
 include($ENV{ROS_ROOT}/core/rosbuild/FindPkgConfig.cmake)
@@ -56,7 +74,7 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-# Boost 
+# Boost
 find_package(Boost REQUIRED COMPONENTS thread system)
 
 ## I prefer the Qt signals and slots to avoid defining "emit", "slots",
@@ -149,14 +167,14 @@ add_definitions(-DQT_NO_KEYWORDS)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-   INCLUDE_DIRS 
+   INCLUDE_DIRS
         include
-    LIBRARIES 
+    LIBRARIES
         path_planner_rviz_wp_plugin
-    CATKIN_DEPENDS 
+    CATKIN_DEPENDS
         ${PKG_REQUIRED_COMPONENTS}
-    DEPENDS 
-        system_lib
+    DEPENDS
+        #system_lib
 )
 
 ###########
@@ -229,30 +247,30 @@ set(project_SRCS_SIM3
   src/WaypointsToolSimUgv3.cpp
 )
 
-# ui files 
-SET(project_UIS	
+# ui files
+SET(project_UIS
     ui/AdvancedWidget.ui
     ui/PriorityDialog.ui
     ui/NavigationDialog.ui
 )
 
-# headers corresponding to ui files 
+# headers corresponding to ui files
 set(project_MOC_HDRS_UI
-   include/AdvancedWidgetUI.h 
+   include/AdvancedWidgetUI.h
    include/PriorityDialogUI.h
    include/NavigationDialogUI.h
 )
 
-# srcs corresponding to ui files 
-set(project_SRCS_UI	
+# srcs corresponding to ui files
+set(project_SRCS_UI
     src/AdvancedWidgetUI.cpp
     src/PriorityDialogUI.cpp
     src/NavigationDialogUI.cpp
 )
 
-# headers corresponding to common files 
+# headers corresponding to common files
 set(project_MOC_HDRS_COMMON
-   include/BoxSliderConnector.h 
+   include/BoxSliderConnector.h
 )
 
 # set resources
@@ -262,12 +280,12 @@ set(project_RES resources/icons.qrc)
 #===============================================================================
 
 # generate ui*.h files from .ui files by using QT4_WRAP_UI macro
-QT4_WRAP_UI(project_UIS_H ${project_UIS})
+QT5_WRAP_UI(project_UIS_H ${project_UIS})
 
 ## Here we specify which header files need to be run through "moc",
 ## Qt's meta-object compiler.
 ## After this calls, project_MOC_SRCS = moc_Class1.cxx moc_Class2.cxx moc_Class3.cxx.
-QT4_WRAP_CPP(project_MOC_SRCS
+QT5_WRAP_CPP(project_MOC_SRCS
   #src/drive_widget.h
   #src/imu_display.h
   #include/WaypointsTool.h
@@ -276,7 +294,7 @@ QT4_WRAP_CPP(project_MOC_SRCS
   ${project_MOC_HDRS_UI}
   ${project_MOC_HDRS_COMMON}
 )
-QT4_WRAP_CPP(project_MOC_SRCS_SIM1
+QT5_WRAP_CPP(project_MOC_SRCS_SIM1
   #src/drive_widget.h
   #src/imu_display.h
   #include/WaypointsToolSimUgv1.h
@@ -285,7 +303,7 @@ QT4_WRAP_CPP(project_MOC_SRCS_SIM1
   ${project_MOC_HDRS_UI}
   ${project_MOC_HDRS_COMMON}
 )
-QT4_WRAP_CPP(project_MOC_SRCS_SIM2
+QT5_WRAP_CPP(project_MOC_SRCS_SIM2
   #src/drive_widget.h
   #src/imu_display.h
   #include/WaypointsToolSimUgv2.h
@@ -294,7 +312,7 @@ QT4_WRAP_CPP(project_MOC_SRCS_SIM2
   ${project_MOC_HDRS_UI}
   ${project_MOC_HDRS_COMMON}
 )
-QT4_WRAP_CPP(project_MOC_SRCS_SIM3
+QT5_WRAP_CPP(project_MOC_SRCS_SIM3
   #src/drive_widget.h
   #src/imu_display.h
   #include/WaypointsToolSimUgv3.h
@@ -305,7 +323,7 @@ QT4_WRAP_CPP(project_MOC_SRCS_SIM3
 )
 
 # generate rules for building source files from the resources
-QT4_ADD_RESOURCES(project_RES_SRCS ${project_RES})
+QT5_ADD_RESOURCES(project_RES_SRCS ${project_RES})
 
 
 ## Here we specify the list of source files, including the output of
@@ -433,5 +451,3 @@ target_link_libraries(${PROJECT_NAME_SIM3} ${QT_LIBRARIES} ${OGRE_LIBRARIES} ${P
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-

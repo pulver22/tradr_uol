@@ -7,6 +7,12 @@
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 
+//#include <pcl_ros/filters/crop_box.h>
+//#include <pcl_ros/CropBoxConfig.h>
+//#include <pcl_ros/point_cloud.h>
+
+#include <vector>
+
 #include "PathPlanner.h"
 #include "Transform.h"
 #include "MarkerController.h"

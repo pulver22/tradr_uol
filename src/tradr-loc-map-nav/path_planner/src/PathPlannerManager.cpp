@@ -1,5 +1,6 @@
 
 #include "PathPlannerManager.h"
+#include <memory>
 
 const float PathPlannerManager::k3DDistanceArrivedToGoal = 4.0*PathPlanner::kGoalPlanningCheckThreshold; //2.5*PathPlanner::kGoalPlanningCheckThreshold;
 const float PathPlannerManager::k2DDistanceArrivedToGoal = 2.1*PathPlanner::kGoalPlanningCheckThreshold;
@@ -562,22 +563,22 @@ bool PathPlannerManager::getRobotPosition(pcl::PointXYZI& robot_position)
 
 void PathPlannerManager::cropPcl(const CropBoxMethod& crop_box_method, const pcl::PointXYZI& start, const pcl::PointXYZI& goal, const pcl::PointCloud<pcl::PointXYZI>& pcl_in, pcl::PointCloud<pcl::PointXYZI>::Ptr pcl_out)
 {
-    if( (crop_box_method == kCropBoxTakeAll) )// || (crop_box_method == kCropBoxTakeAll2) )
+    if( (crop_box_method == kCropBoxTakeAll) )// || (crop_box_method == 2) )
     {
         *pcl_out = pcl_in;
         return; /// < EXIT POINT 
     }
 
     // crop box initialization: traversability
-    pcl::CropBox<pcl::PointXYZI> cropbox_pcl;
-    cropbox_pcl.setInputCloud(pcl_in.makeShared()); // deep copy of full traversability pcl 
-
+    pcl::CropBox<pcl::PointXYZI> cropbox_pcl(true);
+    pcl::PointCloud<pcl::PointXYZI>::Ptr pcl_in_shared = pcl_in.makeShared(); // deep copy of full traversability pcl
+    cropbox_pcl.setInputCloud(pcl_in_shared); // deep copy of full traversability pcl
 
     // prepare for cropping: compute cloud translation
     Eigen::Vector3f p1(start.x, start.y, start.z);
     Eigen::Vector3f p2(goal.x, goal.y, goal.z);
     Eigen::Vector3f middle_point = 0.5 * (p1 + p2);
-    Eigen::Translation<float, 3> translation(-middle_point(0), -middle_point(1), -middle_point(2)); // bring the origin in the middle of the segment 
+    Eigen::Translation<float, 3> translation(-middle_point(0), -middle_point(1), -middle_point(2)); // bring the origin in the middle of the segment
 
     // prepare for cropping: compute cloud rotation
     Eigen::Vector3f delta = p2 - p1;
@@ -598,7 +599,7 @@ void PathPlannerManager::cropPcl(const CropBoxMethod& crop_box_method, const pcl
         transform = rotation.transpose() * translation;
 
 
-        // apply crop box filter to the pcl cloud w.r.t. path-aligned bounding box 
+        // apply crop box filter to the pcl cloud w.r.t. path-aligned bounding box
         //cropbox_traversability_pcl.setMin(Eigen::Vector4f(-1.5 * delta.norm(), -1.5, -1, 1));
         cropbox_pcl.setMin(Eigen::Vector4f(-1. * kGainXCropBoxPathAligned * delta.norm(), -0.5 * kSizeYCropBoxPathAligned, -0.5 * kSizeZCropBoxPathAligned, 1));
         //cropbox_traversability_pcl.setMax(Eigen::Vector4f(1.5 * delta.norm(), 1.5, 1, 1));
@@ -615,7 +616,7 @@ void PathPlannerManager::cropPcl(const CropBoxMethod& crop_box_method, const pcl
         // prepare for cropping: compute cloud transformation (this brings all the points in the world-aligned frame centered in middle_point)
         transform = translation;
 
-        float dx = std::max(1.f * kMinXSizeCropBox, (float) fabs(delta[0])); // 1.f* is for compiling with debug flags 
+        float dx = std::max(1.f * kMinXSizeCropBox, (float) fabs(delta[0])); // 1.f* is for compiling with debug flags
         float dy = std::max(1.f * kMinYSizeCropBox, (float) fabs(delta[1]));
         float dz = std::max(1.f * kMinZSizeCropBox, (float) fabs(delta[2]));
 
@@ -629,7 +630,7 @@ void PathPlannerManager::cropPcl(const CropBoxMethod& crop_box_method, const pcl
             gain = kGainCropBox2;
         }
 
-        // apply crop box filter to the traversability cloud w.r.t. world aligned bounding box 
+        // apply crop box filter to the traversability cloud w.r.t. world aligned bounding box
         cropbox_pcl.setMin(Eigen::Vector4f(-0.5 * gain*dx, -0.5 * gain*dy, -0.5 * gain*dz, 1));
         cropbox_pcl.setMax(Eigen::Vector4f(0.5 * gain*dx, 0.5 * gain*dy, 0.5 * gain*dz, 1));
         cropbox_pcl.setTranslation(Eigen::Vector3f(0, 0, 0));
@@ -641,9 +642,9 @@ void PathPlannerManager::cropPcl(const CropBoxMethod& crop_box_method, const pcl
 
 
     case kCropBoxTakeAll:
-    //case kCropBoxTakeAll2:
+    //case 2:
     {
-        /// < managed above 
+        /// < managed above
     }
         break;
 

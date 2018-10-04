@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(vrep_ugv_plugin)
 
 find_package(catkin REQUIRED COMPONENTS
-  roscpp image_transport tf vrep_common nifti_robot_driver_msgs
+  roscpp image_transport tf vrep_common nifti_robot_driver_msgs cv_bridge brics_actuator
 )
 
 catkin_package(
@@ -13,13 +13,14 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 
 link_directories("/opt/ros/indigo/lib")
 link_directories("/opt/ros/hydro/lib")
+link_directories("/opt/ros/kinetic/lib")
 
-add_library(v_repExtRos 
-    src/vrep_plugin.cpp 
-    src/luaFunctionData.cpp 
-    src/luaFunctionDataItem.cpp 
-    src/v_repLib.cpp 
-    src/ROS_server.cpp 
+add_library(v_repExtRos
+    src/vrep_plugin.cpp
+    src/luaFunctionData.cpp
+    src/luaFunctionDataItem.cpp
+    src/v_repLib.cpp
+    src/ROS_server.cpp
     src/vrepSubscriber.cpp
     src/tf_transform_broadcaster_custom.cpp
     src/tf2_transform_broadcaster_custom.cpp

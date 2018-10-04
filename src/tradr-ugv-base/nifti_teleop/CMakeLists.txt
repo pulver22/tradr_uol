@@ -19,7 +19,7 @@ set(RUN_ONLY_DEPS
   nifti_robot_driver_msgs
   rospy
   sensor_msgs
-  stamped_msgs
+#  stamped_msgs
   tf
   topic_tools
   message_runtime

@@ -12,6 +12,7 @@ set(TRAJECTORY_CONTROL_PKG_DEPS
   geometry_msgs
   nav_msgs
   nifti_robot_driver_msgs
+  nifti_teleop
   trajectory_control_msgs
   roscpp
   sensor_msgs
@@ -120,14 +121,14 @@ find_package(Boost REQUIRED COMPONENTS system thread)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS 
+  INCLUDE_DIRS
     include
 #  LIBRARIES trajectory_control
   CATKIN_DEPENDS
-    ${TRAJECTORY_CONTROL_PKG_DEPS} 
-    #message_runtime
-  DEPENDS 
-    system_lib
+    ${TRAJECTORY_CONTROL_PKG_DEPS}
+    message_runtime
+  DEPENDS
+    #system_lib
 )
 
 ###########

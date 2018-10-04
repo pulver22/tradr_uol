@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(path_planner)
 
+
 set(PREPARE_RELASE 1) # 1 Release, 0 Debug
 
 # if no option is given, standard is release
@@ -10,8 +11,9 @@ if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     if(PREPARE_RELASE )
         message(STATUS "${PROJECT_NAME} build type: Release *********************************")
         set(CMAKE_BUILD_TYPE Release)
-        #set(CUSTOM_C_FLAGS "-O3 -pthread -DNDEBUG -march=native -mmmx -msse -msse2 -msse3")#-Wall 
-        set(CUSTOM_C_FLAGS "-O3 -pthread -DNDEBUG -march=native")#-Wall 
+#        set(CUSTOM_C_FLAGS "-O3 -pthread -DNDEBUG -march=native -mmmx -msse4.2 -Wall ")
+        set(CUSTOM_CXX_FLAGS "-O3 -DNDEBUG  -Wall -Wextra -Wno-unknown-pragmas -fno-strict-aliasing -Wno-format-extra-args -Wno-sign-compare -Wno-invalid-offsetof -Wno-conversion -march=native -msse4.2 -mfpmath=sse -Wabi -pthread -fopenmp")
+#        set(CUSTOM_C_FLAGS "-O3 -pthread -DNDEBUG -march=native")#-Wall
     else()
         message(STATUS "${PROJECT_NAME} build type: Debug *********************************")
         set(CMAKE_BUILD_TYPE Debug)
@@ -20,12 +22,12 @@ if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     endif()
 
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CUSTOM_C_FLAGS}")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CUSTOM_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CUSTOM_CXX_FLAGS}")
 
 #endif(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-# Add C++11 (this is required for using KdTreeFLANN.h)  <<--- CANNOT BE USED WITH PCL !! 
+# Add C++11 (this is required for using KdTreeFLANN.h)  <<--- CANNOT BE USED WITH PCL !!
 # we get a runtime error: we cannot mix libraries compiled with different versions of C++ standard -> see https://github.com/felixendres/rgbdslam_v2/issues/8
 #include(CheckCXXCompilerFlag)
 #CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
@@ -38,8 +40,7 @@ endif(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 #    message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 #endif()
 
-
-# Add OpenMP flags 
+# Add OpenMP flags
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 
@@ -75,12 +76,27 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS thread system)
 
+# Attempt to find Eigen using its own CMake module.
+# If that fails, fall back to cmake_modules package.
+# find_package(Eigen3)
+# # find_package(Eigen)
+# set(EIGEN_PACKAGE EIGEN3)
+# if(NOT EIGEN3_FOUND)
+#   find_package(cmake_modules REQUIRED)
+#   find_package(Eigen REQUIRED)
+#   set(EIGEN3_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS})
+#   set(EIGEN3_LIBRARIES ${EIGEN_LIBRARIES})
+#   set(EIGEN_PACKAGE Eigen)
+# endif()
+#
+# add_definitions(-DEIGEN_NO_DEBUG -DEIGEN_MPL2_ONLY)
+
 find_path(EIGEN3_INCLUDE_DIR NAMES signature_of_eigen3_matrix_library
     PATHS
-    ${CMAKE_INSTALL_PREFIX}/include 
+    ${CMAKE_INSTALL_PREFIX}/include
     ${KDE4_INCLUDE_DIR}
-    PATH_SUFFIXES eigen3 eigen
-)  
+    PATH_SUFFIXES Eigen3
+)
 message(STATUS "Found Eigen3 in: ${EIGEN3_INCLUDE_DIR}")
 
 #find_package(Eigen3 REQUIRED)
@@ -89,14 +105,14 @@ message(STATUS "Found Eigen3 in: ${EIGEN3_INCLUDE_DIR}")
 #find_package(PkgConfig)
 #pkg_search_module(Eigen3 REQUIRED eigen3)​
 
-find_package(PCL REQUIRED)
+find_package(PCL 1.8 REQUIRED COMPONENTS common io)
 add_definitions(${PCL_DEFINITIONS})
 
-message(STATUS "==============================================================") 
+message(STATUS "==============================================================")
 message(STATUS "Found PCL in: ${PCL_INCLUDE_DIRS}")
-message(STATUS "PCL libs: ${PCL_LIBRARIES}") 
-message(STATUS "pcl_ros libs: ${pcl_ros_LIBRARIES}") 
-message(STATUS "==============================================================") 
+message(STATUS "PCL libs: ${PCL_LIBRARIES}")
+message(STATUS "pcl_ros libs: ${pcl_ros_LIBRARIES}")
+message(STATUS "==============================================================")
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -192,15 +208,15 @@ generate_dynamic_reconfigure_options(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS 
+  INCLUDE_DIRS
     include
-  LIBRARIES 
+  LIBRARIES
     normalestimation dynamicjoinpcl clusterpcl conversionpcl travanalpcl pathplanning pathplanningutils
-  CATKIN_DEPENDS 
+  CATKIN_DEPENDS
     ${PATH_PLANNER_PKG_DEPS}
-  DEPENDS 
-    system_lib
-    Eigen
+  DEPENDS
+    #system_lib
+    ${EIGEN_PACKAGE}
 )
 
 ###########
@@ -216,7 +232,7 @@ include_directories(
     #cfg/cpp/path_planner
     ${catkin_INCLUDE_DIRS}
     ${PCL_INCLUDE_DIRS}
-    ${EIGEN3_INCLUDE_DIR}
+    ${EIGEN_INCLUDE_DIR}
 )
 
 #message(FATAL_ERROR "CATKIN_DEVEL_PREFIX: ${CATKIN_DEVEL_PREFIX}")
@@ -225,8 +241,8 @@ link_directories(
     ${PCL_LIBRARY_DIRS}
 )
 
-set(PCL_LIBS_DEPS 
-    ${pcl_ros_LIBRARIES} 
+set(PCL_LIBS_DEPS
+    ${pcl_ros_LIBRARIES}
     ${PCL_LIBRARIES}
 )
 
@@ -243,16 +259,16 @@ add_library(conversionpcl src/ConversionPcl.cpp)
 add_library(travanalpcl src/TravAnalyzer.cpp)
 add_library(pathplanning src/PathPlanner.cpp src/PathPlannerManager.cpp src/MarkerController.cpp src/CostFunction.cpp)
 add_library(pathplanningutils src/Transform.cpp src/Exception.cpp)
-#add_library(marker src/MarkerController.cpp)  
+#add_library(marker src/MarkerController.cpp)
 
 
-target_link_libraries(normalestimation  ${PCL_LIBS_DEPS})
-target_link_libraries(dynamicjoinpcl  ${PCL_LIBS_DEPS})
-target_link_libraries(clusterpcl  ${PCL_LIBS_DEPS})
-target_link_libraries(conversionpcl ${PCL_LIBS_DEPS})
-target_link_libraries(travanalpcl  ${PCL_LIBS_DEPS})
-target_link_libraries(pathplanning  ${PCL_LIBS_DEPS} travanalpcl)
-#target_link_libraries(marker  ${PCL_LIBS_DEPS})  
+target_link_libraries(normalestimation  ${PCL_LIBS_DEPS} ${EIGEN3_LIBRARIES})
+target_link_libraries(dynamicjoinpcl  ${PCL_LIBS_DEPS} ${EIGEN3_LIBRARIES})
+target_link_libraries(clusterpcl  ${PCL_LIBS_DEPS} ${EIGEN3_LIBRARIES})
+target_link_libraries(conversionpcl ${PCL_LIBS_DEPS} ${EIGEN3_LIBRARIES})
+target_link_libraries(travanalpcl  ${PCL_LIBS_DEPS} ${EIGEN3_LIBRARIES})
+target_link_libraries(pathplanning  ${PCL_LIBS_DEPS} travanalpcl ${EIGEN3_LIBRARIES})
+#target_link_libraries(marker  ${PCL_LIBS_DEPS})
 
 
 ## Add cmake target dependencies of the library
@@ -305,7 +321,7 @@ if(EXISTS ${PROJECT_SOURCE_DIR}/${QUEUE_PLANNER_DIR} )
 endif()
 
 set(TEST_DIR src/test)
-if(EXISTS ${PROJECT_SOURCE_DIR}/${TEST_DIR} ) 
+if(EXISTS ${PROJECT_SOURCE_DIR}/${TEST_DIR} )
 #    add_subdirectory(${TEST_DIR})
 endif()
 
@@ -358,5 +374,3 @@ endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-

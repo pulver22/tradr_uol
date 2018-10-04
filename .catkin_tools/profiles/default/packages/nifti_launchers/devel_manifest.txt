@@ -1,0 +1,4 @@
+tradr-ugv-base/nifti_launchers
+/home/riccardo/Desktop/trav_nav_original/devel/.private/nifti_launchers/lib/pkgconfig/nifti_launchers.pc /home/riccardo/Desktop/trav_nav_original/devel/lib/pkgconfig/nifti_launchers.pc
+/home/riccardo/Desktop/trav_nav_original/devel/.private/nifti_launchers/share/nifti_launchers/cmake/nifti_launchersConfig.cmake /home/riccardo/Desktop/trav_nav_original/devel/share/nifti_launchers/cmake/nifti_launchersConfig.cmake
+/home/riccardo/Desktop/trav_nav_original/devel/.private/nifti_launchers/share/nifti_launchers/cmake/nifti_launchersConfig-version.cmake /home/riccardo/Desktop/trav_nav_original/devel/share/nifti_launchers/cmake/nifti_launchersConfig-version.cmake

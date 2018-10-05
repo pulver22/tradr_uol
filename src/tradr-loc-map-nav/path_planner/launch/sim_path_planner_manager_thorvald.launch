@@ -2,21 +2,19 @@
 
 <launch>
 
-  <arg name="robot_name" default="ugv1" />
-  <arg name="simulator" value="vrep" />
-
+  <arg name="tf_prefix" default="" />
+  <arg name="robot_name" default="thorvald" />
+  <arg name="simulator" default="gazebo" />
   <arg name="respawn_value" default="false" /> <!-- boolean: true, false -->
   <arg name="use_marker_controller" default="true" /> <!-- boolean: true, false -->
-
   <arg name="enable_laser_proximity_callback" default="false"/>  <!-- enable a more conservative use of laser proximity info -->
 
 
-  <node launch-prefix="xterm -e gdb --args" name="path_planner_manager_$(arg robot_name)" pkg="path_planner" type="path_planner_manager" respawn="$(arg respawn_value)" output="screen">
+  <node name="path_planner_manager_$(arg robot_name)" pkg="path_planner" type="path_planner_manager" respawn="$(arg respawn_value)" output="screen">
 
-        <param name = "robot_frame_name" value = "/$(arg robot_name)/base_link"/>
+        <param name = "robot_frame_name" value = "$(arg tf_prefix)/base_link"/>
         <param name = "int_marker_server_name" value = "/$(arg simulator)/$(arg robot_name)/marker_controller"/>
         <param name = "int_marker_name" value = "$(arg robot_name)"/>
-
         <param name = "use_marker_controller" value = "$(arg use_marker_controller)"/>
 
         <param name = "path_planning_service_name" value = "/$(arg simulator)/$(arg robot_name)/path_planning_service"/>

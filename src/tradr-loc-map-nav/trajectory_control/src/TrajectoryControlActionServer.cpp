@@ -1,5 +1,5 @@
 
-#include <math.h> 
+#include <math.h>
 #include <TrajectoryControlActionServer.h>
 
 #include <nifti_teleop/Acquire.h>
@@ -10,48 +10,48 @@
 
 #define USE_PATH_MANAGER 1
 
-const double TrajectoryControlActionServer::kTrackDistance = 0.397; // [m] distance between tracks 
+const double TrajectoryControlActionServer::kTrackDistance = 0.397; // [m] distance between tracks
 const float TrajectoryControlActionServer::kRobotRadius = 0.5; //0.5; //0.45;  // [m] robot radius for computing the clearance
-const float TrajectoryControlActionServer::kProximityDistanceThreshold = 0.5; // [m] distance point-to-robot 
+const float TrajectoryControlActionServer::kProximityDistanceThreshold = 0.5; // [m] distance point-to-robot
 
 const double TrajectoryControlActionServer::kDefaulRefVelocity = 0.2; //[m/s]  default linear velocity in m/s
 const double TrajectoryControlActionServer::kMaxTrackVelocity = 0.3; //[m/s]  maximum track velocity in m/s
 const double TrajectoryControlActionServer::kMaxTrackVelocityOnRotation = 0.2; //[m/s]  maximum track velocity in m/s
 const double TrajectoryControlActionServer::kMaxAngularVelocity = 2*TrajectoryControlActionServer::kMaxTrackVelocityOnRotation/TrajectoryControlActionServer::kTrackDistance; //[m/s]  maximum track velocity in m/s
 
-const double TrajectoryControlActionServer::kLaserProximityReducedVelocityFactor = 0.5; // [frac %] reducing factor for linear velocity when laser proximity is detected  
-const double TrajectoryControlActionServer::kLaserProximityReducedVelocityResetTime = 2; // [s] if elapsed time from last laser proximity check is > kLaserProximityReducedVelocityResetTime, the normal velocity is set back 
+const double TrajectoryControlActionServer::kLaserProximityReducedVelocityFactor = 0.5; // [frac %] reducing factor for linear velocity when laser proximity is detected
+const double TrajectoryControlActionServer::kLaserProximityReducedVelocityResetTime = 2; // [s] if elapsed time from last laser proximity check is > kLaserProximityReducedVelocityResetTime, the normal velocity is set back
 
 
 const int TrajectoryControlActionServer::kDefaultControlLaw = TrajectoryControlActionServer::kInputOutputFL; //kNonLinear; // default control law (should be one in the ControlLawType list)
-const double TrajectoryControlActionServer::kDefaultControlFrequency = 15; //[Hz]  default control frequency 
-//const double TrajectoryControlActionServer::kMinimumWaitingTimeforANewPath = 0.5; // [s] minimum time to wait for giving a new path as input 
+const double TrajectoryControlActionServer::kDefaultControlFrequency = 15; //[Hz]  default control frequency
+//const double TrajectoryControlActionServer::kMinimumWaitingTimeforANewPath = 0.5; // [s] minimum time to wait for giving a new path as input
 const double TrajectoryControlActionServer::kTimeOutTolerance = 10; // [s] this time will be added to the expected trajectory execution time in order to define a time out
 
-const double TrajectoryControlActionServer::kDefaultControlGainK1_IOL = 0.3; // default control gain k1 
+const double TrajectoryControlActionServer::kDefaultControlGainK1_IOL = 0.3; // default control gain k1
 const double TrajectoryControlActionServer::kDefaultControlGainK2_IOL = 0.3; // default control gain k2
-const double TrajectoryControlActionServer::kDefaultControlGainK1_NL = 0.3; // default control gain k1 
+const double TrajectoryControlActionServer::kDefaultControlGainK1_NL = 0.3; // default control gain k1
 const double TrajectoryControlActionServer::kDefaultControlGainK2_NL = 0.3; // default control gain k2
 const double TrajectoryControlActionServer::kDefaultAngularGainKw = 0.2; // default control angular gain kw: a pure rotatation control is applied if the angular error is above kRefAngularErrorForPureRotationControl
 const double TrajectoryControlActionServer::kRefAngularErrorForPureRotationControl = M_PI / 4;
 const double TrajectoryControlActionServer::kRefXYErrorForPureRotationControl = 0 * 2. * kDefaultDistanceOffsetPointB;
 
-const double TrajectoryControlActionServer::kAngularErrorThreshold = 3*M_PI / 180.; // [rad] threshold for stopping rotational control 
+const double TrajectoryControlActionServer::kAngularErrorThreshold = 3*M_PI / 180.; // [rad] threshold for stopping rotational control
 
-const double TrajectoryControlActionServer::kDefaultDistanceOffsetPointB = 0.1; // [m] distance offset of point B from robot center (this is used in the control law) 
+const double TrajectoryControlActionServer::kDefaultDistanceOffsetPointB = 0.1; // [m] distance offset of point B from robot center (this is used in the control law)
 // position of point B from robot pose (x,y,theta)
 // xB = x + displacement * cos(theta)
 // yB = y + displacement * sin(theta)
 
 const double TrajectoryControlActionServer::kAdpativeTravFreq = 5; // [Hz] default refresh frequency for adaptive traversability velocity
-const double TrajectoryControlActionServer::kAdpativeTravFilterWn = 2 * M_PI*kAdpativeTravFreq / 18.; // [rad/s] default natural frequency for the adaptive traversability velocity filter  
-// 2*M_PI*kAdpativeTravFreq/18. corresponds to a rise time of 1 sec approximatively 
+const double TrajectoryControlActionServer::kAdpativeTravFilterWn = 2 * M_PI*kAdpativeTravFreq / 18.; // [rad/s] default natural frequency for the adaptive traversability velocity filter
+// 2*M_PI*kAdpativeTravFreq/18. corresponds to a rise time of 1 sec approximatively
 
-const double TrajectoryControlActionServer::kRefErrorForStoppingPathManagerStep = 2 * kDefaultDistanceOffsetPointB; // max reference error for allowing path manager to step  
+const double TrajectoryControlActionServer::kRefErrorForStoppingPathManagerStep = 2 * kDefaultDistanceOffsetPointB; // max reference error for allowing path manager to step
 //const double TrajectoryControlActionServer::k3DDistanceArrivedToGoal = 4 * kDefaultDistanceOffsetPointB; // [m]
 //const double TrajectoryControlActionServer::k2DDistanceArrivedToGoal = 2 * kDefaultDistanceOffsetPointB; // [m]
 
-const std::string TrajectoryControlActionServer::kTeleopMuxPriorityName = "/nav/cmd_vel"; 
+const std::string TrajectoryControlActionServer::kTeleopMuxPriorityName = "/nav/cmd_vel";
 
 TrajectoryControlActionServer::TrajectoryControlActionServer(std::string name) :
 param_node_("~"),
@@ -88,14 +88,14 @@ velocity_before_reduction_(0.),
 b_use_teleop_mux_service_(false)
 {
 
-    /// <  get parameters 
-    
+    /// <  get parameters
+
     str_robot_name_ = getParam<std::string>(param_node_, "robot_name", "ugv1");   /// < multi-robot
     robot_id_ = atoi(str_robot_name_.substr(3,str_robot_name_.size()).c_str()) - 1;
 
     std::string simulator_name  = getParam<std::string>(param_node_, "simulator", "");   /// < multi-robot
-    
-    bool b_use_at  = getParam<bool>(param_node_, "use_at", false);   /// < use adaptive traversability    
+
+    bool b_use_at  = getParam<bool>(param_node_, "use_at", false);   /// < use adaptive traversability
     if(b_use_at)
     {
         p_path_manager_.reset(new PathManagerKdt);
@@ -103,9 +103,9 @@ b_use_teleop_mux_service_(false)
     }
     else
     {
-        p_path_manager_.reset(new PathManager);        
+        p_path_manager_.reset(new PathManager);
     }
-                
+
     odom_frame_id_ = getParam<std::string>(param_node_, "odom_frame_id", "/odom");
     global_frame_id_ = getParam<std::string>(param_node_, "global_frame_id", "/map");
     robot_frame_id_ = getParam<std::string>(param_node_, "robot_frame_id", "/base_link");
@@ -133,7 +133,7 @@ b_use_teleop_mux_service_(false)
 
     robot_path_topic_ = getParam<std::string>(param_node_, "robot_path_topic", "/robot_path");
     robot_local_path_topic_ = getParam<std::string>(param_node_, "robot_path_topic", "/robot_local_path");
-    robot_rotation_topic_ = getParam<std::string>(param_node_, "robot_rotation_topic", "/robot_rotation");    
+    robot_rotation_topic_ = getParam<std::string>(param_node_, "robot_rotation_topic", "/robot_rotation");
 
     vel_max_tracks_ = getParam<double>(param_node_, "vel_max_tracks", kMaxTrackVelocity);
 
@@ -143,29 +143,29 @@ b_use_teleop_mux_service_(false)
     queue_task_feedback_topic_ = getParam<std::string>(param_node_, "queue_task_feedback_topic", "/planner/tasks/feedback");
     queue_task_path_topic_ = getParam<std::string>(param_node_, "queue_task_path_topic", "/planner/tasks/path");
     //queue_task_path_local_topic_ = getParam<std::string>(param_node_, "queue_task_path_local_topic", "/planner/tasks/local_path");
-    
+
     goal_abort_topic_ = getParam<std::string>(param_node_, "goal_abort_topic", "/goal_abort_topic");
     trajectory_control_abort_topic_ = getParam<std::string>(param_node_, "trajectory_control_abort_topic", "/trajectory_control_abort_topic");
-    
+
     laser_proximity_topic_ = getParam<std::string>(param_node_, "laser_proximity_topic", "/laser_proximity_topic");
-    
-    closest_obst_point_topic_ = getParam<std::string>(param_node_, "closest_obst_point_topic", "/closest_obst_point"); 
-    
-    closest_obst_vel_reduction_enable_topic_ = getParam<std::string>(param_node_, "closest_obst_vel_reduction_enable_topic_", "/closest_obst_vel_reduction_enable"); 
-    
+
+    closest_obst_point_topic_ = getParam<std::string>(param_node_, "closest_obst_point_topic", "/closest_obst_point");
+
+    closest_obst_vel_reduction_enable_topic_ = getParam<std::string>(param_node_, "closest_obst_vel_reduction_enable_topic_", "/closest_obst_vel_reduction_enable");
+
     multi_robot_paths_topic_ = getParam<std::string>(param_node_, "multi_robot_paths_topic", "/multi_robot_paths");
-    
+
     teleop_mux_service_acquire_name_ = getParam<std::string>(param_node_, "teleop_mux_service_acquire_name", "/mux_cmd_vel/acquire");
     teleop_mux_service_release_name_ = getParam<std::string>(param_node_, "teleop_mux_service_release_name", "/mux_cmd_vel/release");
 
     b_use_teleop_mux_service_ = getParam<bool>(param_node_, "use_teleop_mux", true);
 
-    /// < setup subcribers 
+    /// < setup subcribers
     imu_odom_sub_ = node_.subscribe(imu_odom_topic_, 1, &TrajectoryControlActionServer::imuOdomCallback, this);
 
     robot_path_sub_ = node_.subscribe(robot_path_topic_, 1, &TrajectoryControlActionServer::robotPathCallBack, this);
     robot_loal_path_sub_ = node_.subscribe(robot_local_path_topic_, 1, &TrajectoryControlActionServer::robotLocalPathCallBack, this);
-    robot_rotation_sub_ = node_.subscribe(robot_rotation_topic_, 1, &TrajectoryControlActionServer::robotRotationCallBack, this);    
+    robot_rotation_sub_ = node_.subscribe(robot_rotation_topic_, 1, &TrajectoryControlActionServer::robotRotationCallBack, this);
 
     adapt_trav_vel_sub_ = node_.subscribe(adapt_trav_vel_topic_, 1, &TrajectoryControlActionServer::adaptTravVelCallback, this);
 
@@ -177,17 +177,17 @@ b_use_teleop_mux_service_(false)
     // get the task's paths
     queue_task_path_sub_ = node_.subscribe(queue_task_path_topic_, 1, &TrajectoryControlActionServer::queueTaskCallback, this);
     //queue_task_path_local_sub_ = node_.subscribe(queue_task_path_local_topic_, 1, &TrajectoryControlActionServer::queueLocalTaskCallback, this);
-    
+
     goal_abort_sub_ = node_.subscribe(goal_abort_topic_, 1, &TrajectoryControlActionServer::goalAbortCallback, this);
     trajectory_control_abort_sub_ = node_.subscribe(trajectory_control_abort_topic_, 1, &TrajectoryControlActionServer::goalAbortCallback, this); /// < use the same callback of goal abort!
 
     laser_proximity_sub_ = node_.subscribe(laser_proximity_topic_, 1, &TrajectoryControlActionServer::laserProximityCallback, this);
-    
+
     closest_obst_point_sub_ = node_.subscribe(closest_obst_point_topic_, 1, &TrajectoryControlActionServer::closestObstaclePointCallback, this);
-    
+
     closest_obst_vel_reduction_enable_sub_ = node_.subscribe(closest_obst_vel_reduction_enable_topic_, 1, &TrajectoryControlActionServer::closestObstacleVelReductionEnableCallback, this);
-                
-    /// < setup publishers 
+
+    /// < setup publishers
 
     tracks_vel_cmd_pub_ = node_.advertise<nifti_robot_driver_msgs::Tracks>(tracks_vel_cmd_topic_, 1);
 
@@ -201,10 +201,10 @@ b_use_teleop_mux_service_(false)
     queue_task_feedback_pub_ = node_.advertise<trajectory_control_msgs::PlanningFeedback>(queue_task_feedback_topic_, 1);
 
     multi_robot_paths_pub_ = node_.advertise<trajectory_control_msgs::MultiRobotPath>(multi_robot_paths_topic_, 1);
-    
+
     teleop_mux_pub_ = node_.advertise<geometry_msgs::Twist>("/nav/cmd_vel", 1);
 
-    /// < wait the first robot pose 
+    /// < wait the first robot pose
     //while(!getRobotPose(current_real_robot_pose_odom,real_robot_pose_map,from_odom_to_map))
     while (!getRobotPose2(tf_robot_pose_odom_, tf_robot_pose_map_, tf_odom_to_map_, tf_front_left_flipper_, tf_front_right_flipper, tf_rear_left_flipper_, tf_rear_right_flipper_, tf_imu_t))
     {
@@ -212,10 +212,10 @@ b_use_teleop_mux_service_(false)
     }
     getRealRobotPoseB(displacement_, tf_robot_pose_map_, tf_robot_poseB_map_);
 
-    /// < start the action server 
+    /// < start the action server
     act_server_.start();
 
-    /// < init vars 
+    /// < init vars
     adapt_trav_vel_ = 0;
 
     global_path_msg_.header.frame_id = global_frame_id_;
@@ -225,10 +225,10 @@ b_use_teleop_mux_service_(false)
     local_path_msg_.header.stamp = ros::Time::now();
 
     control_law_type_ = (ControlLawType) kNonLinear;//kDefaultControlLaw;
-    
+
     b_closest_obst_vel_reduction_enable_ = true;
-    
-    /// < services 
+
+    /// < services
     teleop_mux_service_acquire_ = node_.serviceClient<nifti_teleop::Acquire>(teleop_mux_service_acquire_name_);
     teleop_mux_service_release_ = node_.serviceClient<nifti_teleop::Release>(teleop_mux_service_release_name_);
     if(b_use_teleop_mux_service_ && !teleop_mux_service_acquire_.waitForExistence(ros::Duration(5.0)) )
@@ -236,13 +236,13 @@ b_use_teleop_mux_service_(false)
         b_use_teleop_mux_service_ = false;
         ROS_ERROR_STREAM("disabling teleop mux since acquire service is not available!");
     }
-    
-//    if(!simulator_name.empty())  
+
+//    if(!simulator_name.empty())
 //    {
-//        b_use_teleop_mux_service_ = false; /// < disable teleop mux with simulator 
-//        ROS_INFO_STREAM("disabling teleop mux since we are in simulation, simulator: " << simulator_name); 
+//        b_use_teleop_mux_service_ = false; /// < disable teleop mux with simulator
+//        ROS_INFO_STREAM("disabling teleop mux since we are in simulation, simulator: " << simulator_name);
 //    }
-//    // b_use_teleop_mux_service_ = false; /// < to disable teleop mux    
+//    // b_use_teleop_mux_service_ = false; /// < to disable teleop mux
 
 }
 
@@ -385,7 +385,7 @@ void TrajectoryControlActionServer::resampleAndSmoothPath(const nav_msgs::Path& 
 
     geometry_msgs::PoseStamped current;
     current.header = path_in.poses[0].header;
-    current.pose.position = path_in.poses[0].pose.position; // start from first point 
+    current.pose.position = path_in.poses[0].pose.position; // start from first point
 
     geometry_msgs::PoseStamped new_point;
 
@@ -394,20 +394,20 @@ void TrajectoryControlActionServer::resampleAndSmoothPath(const nav_msgs::Path& 
     double offset = 0.0;
     bool is_change_point = false;
 
-    int i = 1; // this is the index of next point 
+    int i = 1; // this is the index of next point
     //while (i < (path_in.poses.size() - 1))
     while (i < path_in.poses.size())
     {
         //if (current.pose.position.x == path_in.poses[i].pose.position.x && current.pose.position.y == path_in.poses[i].pose.position.y)
         if (FEQUAL(current.pose.position.x, path_in.poses[i].pose.position.x, 1e-4) && FEQUAL(current.pose.position.y, path_in.poses[i].pose.position.y, 1e-4))
         {
-            i++; // get the new point in the list 
+            i++; // get the new point in the list
         }
         else
         {
             if (is_change_point)
             {
-                dist_step = fabs(vel * time_step - offset); // get a shorter step 
+                dist_step = fabs(vel * time_step - offset); // get a shorter step
                 current_dist_to_next = sqrt(pow(path_in.poses[i].pose.position.x - new_point.pose.position.x, 2) + pow(path_in.poses[i].pose.position.y - new_point.pose.position.y, 2));
                 //ROS_INFO("changePoint current distance [%f]",current_dist);
                 //ROS_INFO("changePoint distance [%f]",distance);
@@ -415,7 +415,7 @@ void TrajectoryControlActionServer::resampleAndSmoothPath(const nav_msgs::Path& 
                 //ROS_INFO_STREAM("change point event");
 
                 yaw = atan2(path_in.poses[i].pose.position.y - new_point.pose.position.y, path_in.poses[i].pose.position.x - new_point.pose.position.x);
-                current.pose.orientation = tf::createQuaternionMsgFromYaw(yaw); // added 
+                current.pose.orientation = tf::createQuaternionMsgFromYaw(yaw); // added
             }
             else
             {
@@ -457,8 +457,8 @@ void TrajectoryControlActionServer::resampleAndSmoothPath(const nav_msgs::Path& 
             else
             {
                 // the dist_step brings us beyond path_in.poses[i]
-                // => we take path_in.poses[i] as intermediate point 
-                // => we store the offset and we recover the missed distance in the next iteration 
+                // => we take path_in.poses[i] as intermediate point
+                // => we store the offset and we recover the missed distance in the next iteration
                 offset += fabs(current_dist_to_next - dist_step); // absolute value!
                 new_point.header = path_in.poses[i].header;
                 new_point.pose = path_in.poses[i].pose;
@@ -466,7 +466,7 @@ void TrajectoryControlActionServer::resampleAndSmoothPath(const nav_msgs::Path& 
 
                 //if(i == (path_in.poses.size() - 1)){}
 
-                i++; // get the new point in the list 
+                i++; // get the new point in the list
             }
 
         }
@@ -489,8 +489,8 @@ void TrajectoryControlActionServer::resampleAndSmoothPath(const nav_msgs::Path& 
 
 void TrajectoryControlActionServer::buildReferenceTrajectory(double vel_ref, const geometry_msgs::PoseStamped& pose_ref, geometry_msgs::Pose& pose_ref_B, geometry_msgs::Twist& vel_ref_B)
 {
-    std::cout <<  "TrajectoryControlActionServer::buildReferenceTrajectory()" << std::endl; 
-    
+    std::cout <<  "TrajectoryControlActionServer::buildReferenceTrajectory()" << std::endl;
+
     pose_ref_B = pose_ref.pose; // the reference trajectory is applied on point B as is
 
     double yaw = tf::getYaw(pose_ref.pose.orientation);
@@ -499,7 +499,7 @@ void TrajectoryControlActionServer::buildReferenceTrajectory(double vel_ref, con
     //    global_path_msg_.poses.push_back(pose_ref);
     //    global_path_pub_.publish(global_path_msg_);
 
-    // we compute the components of the reference velocity 
+    // we compute the components of the reference velocity
     vel_ref_B.linear.x = vel_ref * cos(yaw);
     vel_ref_B.linear.y = vel_ref * sin(yaw);
 
@@ -510,7 +510,7 @@ void TrajectoryControlActionServer::buildReferenceTrajectory(double vel_ref, con
 #endif
 }
 
-// compute control law and return the current error - Input-Output Linearization 
+// compute control law and return the current error - Input-Output Linearization
 
 double TrajectoryControlActionServer::computeControlLawIOLin(const tf::StampedTransform& tf_robot_pose_B, double k1, double k2, const geometry_msgs::Pose& ref_pose_B, const geometry_msgs::Twist& ref_vel_B, double& linear_vel, double& angular_vel)
 {
@@ -528,7 +528,7 @@ double TrajectoryControlActionServer::computeControlLawIOLin(const tf::StampedTr
 #ifdef VERBOSE
         std::cout << "computeControlLawIOLin() - pure rotational control " << std::endl;
 #endif
-        // pure rotational control 
+        // pure rotational control
         linear_vel = 0;
         angular_vel = kw_*error_yaw;
     }
@@ -571,7 +571,7 @@ double TrajectoryControlActionServer::computeControlLawIOLin(const tf::StampedTr
     return error_xy;
 }
 
-// compute control law and return the current error - Input-Output Linearization 
+// compute control law and return the current error - Input-Output Linearization
 double TrajectoryControlActionServer::computeControlLawPosition(const tf::StampedTransform& tf_robot_pose_B, double k1, double k2, const geometry_msgs::PoseStamped& target_pose, double& linear_vel, double& angular_vel)
 {
     double roll, pitch, yaw;
@@ -579,7 +579,7 @@ double TrajectoryControlActionServer::computeControlLawPosition(const tf::Stampe
 
     //double error_yaw = diffS1(tf::getYaw(ref_pose_B.orientation), yaw);
 
-    // point towards the target 
+    // point towards the target
     double target_yaw = atan2(target_pose.pose.position.y - tf_robot_pose_B.getOrigin().getY(), target_pose.pose.position.x - tf_robot_pose_B.getOrigin().getX());
 
     double err_x = (target_pose.pose.position.x - tf_robot_pose_B.getOrigin().getX());
@@ -591,7 +591,7 @@ double TrajectoryControlActionServer::computeControlLawPosition(const tf::Stampe
     //#ifdef VERBOSE
     //        std::cout << "computeControlLawIOLin() - pure rotational control " << std::endl;
     //#endif
-    //        // pure rotational control 
+    //        // pure rotational control
     //        linear_vel = 0;
     //        angular_vel = kw_*error_yaw;
     //    }
@@ -637,7 +637,7 @@ double TrajectoryControlActionServer::computeControlLawPosition(const tf::Stampe
     return error_xy;
 }
 
-// compute control law and return the current error - non-linear position control 
+// compute control law and return the current error - non-linear position control
 double TrajectoryControlActionServer::computeControlLawPosition2(const tf::StampedTransform& tf_robot_pose, double k1, double k2, const geometry_msgs::PoseStamped& target_pose, double& linear_vel, double& angular_vel)
 {
     double roll, pitch, yaw;
@@ -648,11 +648,11 @@ double TrajectoryControlActionServer::computeControlLawPosition2(const tf::Stamp
     double err_x = (target_pose.pose.position.x - tf_robot_pose.getOrigin().getX());
     double err_y = (target_pose.pose.position.y - tf_robot_pose.getOrigin().getY());
     double error_xy = sqrt(err_x * err_x + err_y * err_y);
-     
-    // point towards the target 
+
+    // point towards the target
     double target_yaw = atan2(err_y, err_x);
-    
-    double err_yaw = diffS1(target_yaw, yaw);   
+
+    double err_yaw = diffS1(target_yaw, yaw);
 
 
     if ((fabs(err_yaw) > kRefAngularErrorForPureRotationControl) && (error_xy > 1e-2))
@@ -660,7 +660,7 @@ double TrajectoryControlActionServer::computeControlLawPosition2(const tf::Stamp
 #ifdef VERBOSE
         std::cout << "computeControlLawPosition2() - pure rotational control " << std::endl;
 #endif
-        // pure rotational control 
+        // pure rotational control
         linear_vel  = 0;
         angular_vel = kw_*err_yaw;
     }
@@ -684,7 +684,7 @@ double TrajectoryControlActionServer::computeControlLawPosition2(const tf::Stamp
     geometry_msgs::PoseStamped robot_pose;
     robot_pose.header.frame_id = tf_robot_pose.frame_id_;
     robot_pose.header.stamp = tf_robot_pose.stamp_;
-    robot_pose.pose.position.x = tf_robot_pose.getOrigin().getX(); 
+    robot_pose.pose.position.x = tf_robot_pose.getOrigin().getX();
     robot_pose.pose.position.y = tf_robot_pose.getOrigin().getY();
     robot_pose.pose.position.z = tf_robot_pose.getOrigin().getZ();
     robot_pose.pose.orientation.x = tf_robot_pose.getRotation().getX();
@@ -697,7 +697,7 @@ double TrajectoryControlActionServer::computeControlLawPosition2(const tf::Stamp
     return error_xy;
 }
 
-// compute control law and return the current error - Non-Linear control law  
+// compute control law and return the current error - Non-Linear control law
 double TrajectoryControlActionServer::computeControlLawNonLin(const tf::StampedTransform& tf_robot_pose, double k1, double k2, const geometry_msgs::Pose& ref_pose, const geometry_msgs::Twist& ref_vel, double& linear_vel, double& angular_vel)
 {
     double roll, pitch, yaw;
@@ -715,7 +715,7 @@ double TrajectoryControlActionServer::computeControlLawNonLin(const tf::StampedT
 #ifdef VERBOSE
         std::cout << "computeControlLawNonLin() - pure rotational control " << std::endl;
 #endif
-        // pure rotational control 
+        // pure rotational control
         linear_vel = 0;
         angular_vel = kw_*error_yaw;
     }
@@ -760,11 +760,11 @@ double TrajectoryControlActionServer::computeControlLawNonLin(const tf::StampedT
 }
 
 
-// compute control law for rotation, it returns the current yaw error 
+// compute control law for rotation, it returns the current yaw error
 double TrajectoryControlActionServer::computeControlLawRotation(const tf::StampedTransform& tf_robot_pose, const geometry_msgs::Pose& ref_pose, const geometry_msgs::Twist& ref_vel, double& linear_vel, double& angular_vel)
 {
-    std::cout <<  "TrajectoryControlActionServer::computeControlLawRotation()" << std::endl; 
-    
+    std::cout <<  "TrajectoryControlActionServer::computeControlLawRotation()" << std::endl;
+
     double roll, pitch, yaw;
     tf_robot_pose.getBasis().getRPY(roll, pitch, yaw);
 
@@ -780,7 +780,7 @@ double TrajectoryControlActionServer::computeControlLawRotation(const tf::Stampe
 #ifdef VERBOSE
         std::cout << "computeControlLawRotation() - pure rotational control - yaw error:  " << error_yaw << std::endl;
 #endif
-        // pure rotational control 
+        // pure rotational control
         linear_vel = 0;
         angular_vel = kw_*error_yaw;
     }
@@ -827,25 +827,25 @@ double TrajectoryControlActionServer::computeControlLawRotation(const tf::Stampe
 void TrajectoryControlActionServer::getTracksVelCmd(double linear_vel, double angular_vel, double robot_width, nifti_robot_driver_msgs::Tracks& tracks_cmd)
 {
     double d = robot_width / 2;
-    
+
     /// < saturate omega (this is for helping SLAM: fast rotations can give SLAM a hard time)
     if (fabs(angular_vel) > kMaxAngularVelocity)
     {
-        // here we maintain the curvature radius 
+        // here we maintain the curvature radius
         double scale = fabs(kMaxAngularVelocity / angular_vel);
         angular_vel  *= scale;
         linear_vel   *= scale;
     }
-    
-    /// < scale velocity on the basis of closest obstacle point 
+
+    /// < scale velocity on the basis of closest obstacle point
     if(b_decrease_vel_ && b_closest_obst_vel_reduction_enable_)
     {
         boost::recursive_mutex::scoped_lock locker(closest_obst_point_mutex);
 
         float clostest_obst_point_dist = sqrt(closest_obst_point.x()*closest_obst_point.x() + closest_obst_point.y()*closest_obst_point.y());
         double  distance_from_robot    = std::max( clostest_obst_point_dist - kRobotRadius, 0.f);
-#ifdef VERBOSE        
-        ROS_INFO_STREAM("getTracksVelCmd() - distance  from robot: " << distance_from_robot); 
+#ifdef VERBOSE
+        ROS_INFO_STREAM("getTracksVelCmd() - distance  from robot: " << distance_from_robot);
 #endif
         if ( (distance_from_robot >= 0.) && (distance_from_robot < kProximityDistanceThreshold) )
         {
@@ -853,14 +853,14 @@ void TrajectoryControlActionServer::getTracksVelCmd(double linear_vel, double an
             float vel_towards_obst     = obst_point_unit_vecx * linear_vel; // this is 'v * cos(theta)'
             float vel_max_towards_obst = (distance_from_robot/kProximityDistanceThreshold)*vel_reference_;
             float scale = (vel_towards_obst > 0.) ? std::min( vel_max_towards_obst/vel_towards_obst , 1.0f) : 0.0;
-#ifdef VERBOSE               
-            ROS_INFO_STREAM("getTracksVelCmd() - scale: " << scale); 
+#ifdef VERBOSE
+            ROS_INFO_STREAM("getTracksVelCmd() - scale: " << scale);
 #endif
-            linear_vel *= scale; 
+            linear_vel *= scale;
         }
     }
-    
-    /// < compute tracks velocities from v and omega 
+
+    /// < compute tracks velocities from v and omega
     tracks_cmd.left  = linear_vel - (d * angular_vel);
     tracks_cmd.right = linear_vel + (d * angular_vel);
 
@@ -926,7 +926,7 @@ void TrajectoryControlActionServer::imuDataCallback(const sensor_msgs::ImuConstP
     tf::Vector3 toa_b(tip_over_axes_vecs_[2]);
     tf::Vector3 toa_r(tip_over_axes_vecs_[3]);
 
-    // compute unit vectors 
+    // compute unit vectors
     gravity = gravity / gravity.length();
     toa_f = toa_f / toa_f.length();
     toa_l = toa_l / toa_l.length();
@@ -939,7 +939,7 @@ void TrajectoryControlActionServer::imuDataCallback(const sensor_msgs::ImuConstP
     cos_alpha[3] = tf::tfDot(gravity, toa_b);
     cos_alpha[4] = tf::tfDot(gravity, toa_r);
 
-    //    double min = 1000; // the above scalar products are less than one 
+    //    double min = 1000; // the above scalar products are less than one
     //    for (int i = 0; i < 4; i++)
     //    {
     //        if (cos_alpha[i] < min)
@@ -958,14 +958,14 @@ void TrajectoryControlActionServer::imuDataCallback(const sensor_msgs::ImuConstP
             max_fc = fc;
         }
     }
-    double cost = max_fc; // |cos(alpha)| the more g and v are far from being perpendicular the bigger the cost  
+    double cost = max_fc; // |cos(alpha)| the more g and v are far from being perpendicular the bigger the cost
     ROS_INFO("Force-Angle Stability Margin: [%f]", cost);
 }
 
 void TrajectoryControlActionServer::imuOdomCallback(const nav_msgs::OdometryConstPtr& msg)
 {
     boost::recursive_mutex::scoped_lock locker(tf_robot_pose_map_mutex);
-        
+
     odomMsgToStampedTransform(*msg, tf_robot_pose_odom_);
 
     double yaw = tf::getYaw(tf_robot_pose_odom_.getRotation());
@@ -999,7 +999,7 @@ void TrajectoryControlActionServer::imuOdomCallback(const nav_msgs::OdometryCons
     {
 
         tf::Transform transformation = tf_odom_to_map_ * tf_robot_pose_odom_;
-        
+
         tf_robot_pose_map_.stamp_ = tf_robot_pose_odom_.stamp_;
         tf_robot_pose_map_.setBasis(transformation.getBasis());
         tf_robot_pose_map_.setOrigin(transformation.getOrigin());
@@ -1012,20 +1012,20 @@ void TrajectoryControlActionServer::imuOdomCallback(const nav_msgs::OdometryCons
 void TrajectoryControlActionServer::executeCallback(const trajectory_control_msgs::TrajectoryControlGoalConstPtr &goal_msg)
 {
     boost::recursive_mutex::scoped_lock locker(action_mutex);
-    
+
     if(b_simple_rotation_)
     {
         executeRotation(goal_msg);
-        return; /// < EXIT POINT! 
+        return; /// < EXIT POINT!
     }
-    
+
     /// start queue path planner stuff
     trajectory_control_msgs::PlanningFeedback planning_feedback_msg;
     planning_feedback_msg.header.stamp = ros::Time::now();
     planning_feedback_msg.node = "control";
     planning_feedback_msg.task = "done";
     planning_feedback_msg.status = STATUS_FAILURE;
-    /// end queue path planner stuff 
+    /// end queue path planner stuff
 
     nifti_robot_driver_msgs::Tracks tracks_cmd;
 
@@ -1034,12 +1034,12 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
     local_path_msg_.header.stamp = ros::Time::now();
     local_path_pub_.publish(local_path_msg_);
 
-    /// < send global path 
-    //global_path_msg_.poses.clear(); 
+    /// < send global path
+    //global_path_msg_.poses.clear();
     global_path_msg_ = goal_msg->path;
     global_path_pub_.publish(global_path_msg_);
-    
-    /// < send multi- path 
+
+    /// < send multi- path
     sendMultiRobotPath(global_path_msg_);
 
     ros::Rate rate(control_frequency_);
@@ -1052,8 +1052,8 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
 
     double estimated_duration = p_path_manager_->getEstimatedTime();
 
-    // since we allow reference velocity to change time out cannot be reliably used 
-    // moreover, the last GUIs allow to interrupt the trajectory control at any time 
+    // since we allow reference velocity to change time out cannot be reliably used
+    // moreover, the last GUIs allow to interrupt the trajectory control at any time
     double time_out = std::numeric_limits<double>::max();
 
     geometry_msgs::Pose final_position = p_path_manager_->getFinalPose().pose;
@@ -1072,34 +1072,34 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
     int index = 0;
 
     CmdVels cmd_vels(robot_width_);
-    
+
     geometry_msgs::Pose pose_ref_B;
     geometry_msgs::Twist vel_ref_B;
 
     bool b_done = false;
     bool b_time_out = false;
-    bool b_path_end = p_path_manager_->isPathEnd(); // check  if the path is ok 
-    
+    bool b_path_end = p_path_manager_->isPathEnd(); // check  if the path is ok
+
     // the path is empty and we pre-empt the action server
     if(ros::ok() && b_path_end)
     {
         ROS_WARN_STREAM("TrajectoryControlActionServer::executeCallback() - path is empty - action canceled ");
         act_server_.setPreempted();
     }
-    
+
     bool b_do_step = true;
-    
-    double final_3D_error = 0; 
+
+    double final_3D_error = 0;
     double final_2D_error = 0;
 
     acquireTeleopMux();
-    
+
     //ROS_INFO("counter=%f, duration=%f, index=%d, global_plan.poses.size()=%ld", (float)counter, (float)duration, index, global_plan.poses.size());
 
     while (ros::ok() && !b_time_out && !b_path_end)
     {
         checkLaserProximityAndUpdateVelocity();
-                
+
         //ROS_INFO(" ---- cycle step ----  ");
         if (act_server_.isPreemptRequested() || !ros::ok())
         {
@@ -1114,7 +1114,7 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
             // send an empty path message
             global_path_msg_.poses.clear();
             global_path_pub_.publish(global_path_msg_);
-            
+
             //sendMultiRobotPath(global_path_msg_);
 
             geometry_msgs::Twist cmd_twist;
@@ -1142,16 +1142,16 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
 
 #ifdef USE_PATH_MANAGER
             p_path_manager_->setVel(vel_reference_);
-            
-            // set the current robot position in the path manager 
+
+            // set the current robot position in the path manager
             { // start scope for locking tf_robot_pose_map_mutex
                 boost::recursive_mutex::scoped_lock locker(tf_robot_pose_map_mutex);
-                tf::StampedTransform&  tf_robot_pose_map_to_check = (control_law_type_ == kInputOutputFL) ? (tf_robot_poseB_map_) : (tf_robot_pose_map_);            
+                tf::StampedTransform&  tf_robot_pose_map_to_check = (control_law_type_ == kInputOutputFL) ? (tf_robot_poseB_map_) : (tf_robot_pose_map_);
                 tf::Vector3& robot_origin_to_check = tf_robot_pose_map_to_check.getOrigin();
                 p_path_manager_->setRobotPosition(robot_origin_to_check.getX(),robot_origin_to_check.getY(),robot_origin_to_check.getZ());
              }
 
-            // if the error is not too big we can generate a new point ahead with the path manager 
+            // if the error is not too big we can generate a new point ahead with the path manager
             b_do_step = (current_track_error_xy < kRefErrorForStoppingPathManagerStep);
             //b_do_step = true;
 
@@ -1165,7 +1165,7 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
             }
 
             geometry_msgs::PoseStamped pose_ref = p_path_manager_->getCurrentPose();
-#else            
+#else
             geometry_msgs::PoseStamped pose_ref = global_plan_msg_.poses[index];
 #endif
 
@@ -1207,16 +1207,16 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
 
                 //ROS_INFO("Robot commands computed");
                 getTracksVelCmd(linear_vel_, angular_vel_, robot_width_, tracks_cmd);
-                
-                // once we have processed tracks_cmd.left and tracks_cmd.right lets transform the result back to linear and angular velocities 
+
+                // once we have processed tracks_cmd.left and tracks_cmd.right lets transform the result back to linear and angular velocities
                 cmd_vels.vl_ = tracks_cmd.left;
                 cmd_vels.vr_ = tracks_cmd.right;
                 cmd_vels.updateVOmega();
-                linear_vel_  = cmd_vels.v_; 
+                linear_vel_  = cmd_vels.v_;
                 angular_vel_ = cmd_vels.omega_;
-                
+
                 //ROS_INFO("Robot tracks vel computed");
-                
+
                 feedback_msg_.cmd_vel.linear.x   = linear_vel_;
                 feedback_msg_.cmd_vel.angular.z  = angular_vel_;
                 feedback_msg_.tracks_cmd.left    = tracks_cmd.left;
@@ -1230,17 +1230,17 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
 
             /// < publish the velocity command
             //tracks_vel_cmd_pub_.publish(tracks_cmd);
-            sendVelCommands(tracks_cmd, linear_vel_, angular_vel_); 
-            
-            
+            sendVelCommands(tracks_cmd, linear_vel_, angular_vel_);
+
+
             rate.sleep();
             time_counter += timestep;
             index++;
             //ROS_INFO("Increments");
         }
 
-#ifdef USE_PATH_MANAGER        
-        //b_path_end = (path_manager_.isPathEnd()) && (current_track_error_xy < kRefErrorForStoppingPathManagerStep); // N.B.: this version generates problem cause the final resulting position controller will make the robot dance 
+#ifdef USE_PATH_MANAGER
+        //b_path_end = (path_manager_.isPathEnd()) && (current_track_error_xy < kRefErrorForStoppingPathManagerStep); // N.B.: this version generates problem cause the final resulting position controller will make the robot dance
         b_path_end = (p_path_manager_->isPathEnd());
 #else
         b_path_end = index >= global_plan_msg_.poses.size();
@@ -1262,11 +1262,11 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
     if (b_done)
     {
         result_msg_.done = true;
-        
+
         getTracksVelCmd(0, 0, robot_width_, tracks_cmd);
         tracks_vel_cmd_pub_.publish(tracks_cmd);
         rate.sleep();
-        
+
         ROS_INFO("Trajectory Control: %s: Succeeded", action_name.c_str());
         global_plan_msg_.poses.clear();
         act_server_.setSucceeded(result_msg_);
@@ -1278,7 +1278,7 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
             boost::recursive_mutex::scoped_lock locker(tf_robot_pose_map_mutex);
             tf::StampedTransform&  tf_robot_pose_map_to_check = (control_law_type_ == kInputOutputFL) ? (tf_robot_poseB_map_) : (tf_robot_pose_map_);
 
-            /// < N.B.: controller work only considering x and y components; here we consider the z componenent for sake of completeness 
+            /// < N.B.: controller work only considering x and y components; here we consider the z componenent for sake of completeness
             final_3D_error = sqrt(pow(final_position.position.x - tf_robot_pose_map_to_check.getOrigin().getX(), 2) +
                                          pow(final_position.position.y - tf_robot_pose_map_to_check.getOrigin().getY(), 2) +
                                          pow(final_position.position.z - tf_robot_pose_map_to_check.getOrigin().getZ(), 2));
@@ -1301,33 +1301,33 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
 
 void TrajectoryControlActionServer::executeRotation(const trajectory_control_msgs::TrajectoryControlGoalConstPtr &goal_msg)
 {
-    std::cout << "TrajectoryControlActionServer::executeRotation()" << std::endl; 
-    
+    std::cout << "TrajectoryControlActionServer::executeRotation()" << std::endl;
+
     /// start queue path planner stuff
     trajectory_control_msgs::PlanningFeedback planning_feedback_msg;
     planning_feedback_msg.header.stamp = ros::Time::now();
     planning_feedback_msg.node = "control";
     planning_feedback_msg.task = "rotation";
     planning_feedback_msg.status = STATUS_FAILURE;
-    /// end queue path planner stuff 
+    /// end queue path planner stuff
 
     nifti_robot_driver_msgs::Tracks tracks_cmd;
 
     /// < send local path
     local_path_msg_.poses.clear();
-    local_path_msg_.header.stamp = ros::Time::now();       
+    local_path_msg_.header.stamp = ros::Time::now();
     local_path_pub_.publish(local_path_msg_);
 
-    /// < send global path 
+    /// < send global path
     //global_path_msg_.poses.clear();
-    global_path_msg_.header.stamp = ros::Time::now();       
+    global_path_msg_.header.stamp = ros::Time::now();
     global_path_msg_ = goal_msg->path;
-    std::cout << "global_path_msg: "  << global_path_msg_ << std::endl; 
+    std::cout << "global_path_msg: "  << global_path_msg_ << std::endl;
     global_path_pub_.publish(global_path_msg_);
-    
-    /// < send multi- path 
+
+    /// < send multi- path
     sendMultiRobotPath(global_path_msg_);
-    
+
     ros::Rate rate(control_frequency_);
     double timestep = rate.expectedCycleTime().nsec / 1e9;
 
@@ -1345,16 +1345,16 @@ void TrajectoryControlActionServer::executeRotation(const trajectory_control_msg
     //int index = 0;
 
     CmdVels cmd_vels(robot_width_);
-    
+
     geometry_msgs::Pose pose_ref_B;
     geometry_msgs::Twist vel_ref_B;
 
     bool b_done = false;
     bool b_time_out = false;
-    bool b_path_end = false; 
+    bool b_path_end = false;
     //bool b_do_step = true;
-    
-    //double final_3D_error = 0; 
+
+    //double final_3D_error = 0;
     //double final_2D_error = 0;
 
     acquireTeleopMux();
@@ -1377,7 +1377,7 @@ void TrajectoryControlActionServer::executeRotation(const trajectory_control_msg
             // send an empty path message
             global_path_msg_.poses.clear();
             global_path_pub_.publish(global_path_msg_);
-            
+
             //sendMultiRobotPath(global_path_msg_);
 
             geometry_msgs::Twist cmd_twist;
@@ -1406,7 +1406,7 @@ void TrajectoryControlActionServer::executeRotation(const trajectory_control_msg
 //#ifdef USE_PATH_MANAGER
 //            path_manager_.setVel(vel_reference_);
 //
-//            // if the error is not too big we can generate a new point ahead with the path manager 
+//            // if the error is not too big we can generate a new point ahead with the path manager
 //            b_do_step = (current_track_error_xy < kRefErrorForStoppingPathManagerStep);
 //
 //            if (b_do_step)
@@ -1419,14 +1419,14 @@ void TrajectoryControlActionServer::executeRotation(const trajectory_control_msg
 //            }
 //
 //            geometry_msgs::PoseStamped pose_ref = path_manager_.getCurrentPose();
-//#else            
+//#else
 //            geometry_msgs::PoseStamped pose_ref = global_plan_msg_.poses[index];
 //#endif
 
             /// < N.B.: the path is assumed to be just a single pose (containing the reference yaw)
             //geometry_msgs::PoseStamped pose_ref = global_plan_msg_.poses[0]; // this gives problem!
             geometry_msgs::PoseStamped pose_ref = goal_msg->path.poses[0];
-            
+
             buildReferenceTrajectory(vel_reference_, pose_ref, pose_ref_B, vel_ref_B); /// < N.B.: the reference trajectory is applied on point B as is
 
             //ROS_INFO("BuildRefTrajectory done");
@@ -1442,10 +1442,10 @@ void TrajectoryControlActionServer::executeRotation(const trajectory_control_msg
 //                final_2D_error = sqrt(pow(final_position.position.x - tf_robot_pose_map_to_check.getOrigin().getX(), 2) +
 //                                             pow(final_position.position.y - tf_robot_pose_map_to_check.getOrigin().getY(), 2));
 
-                
+
                 current_yaw_error = computeControlLawRotation(tf_robot_pose_map_, pose_ref_B, vel_ref_B, linear_vel_, angular_vel_);
                 b_path_end = (fabs(current_yaw_error) < kAngularErrorThreshold);
-                                    
+
 //                if (b_do_step && !(final_3D_error < kRefErrorForStoppingPathManagerStep))
 //                //if(final_3D_error > kRefErrorForStoppingPathManagerStep)
 //                {
@@ -1469,16 +1469,16 @@ void TrajectoryControlActionServer::executeRotation(const trajectory_control_msg
 
                 //ROS_INFO("Robot commands computed");
                 getTracksVelCmd(linear_vel_, angular_vel_, robot_width_, tracks_cmd);
-                
-                // once we have processed tracks_cmd.left and tracks_cmd.right lets transform the result back to linear and angular velocities 
+
+                // once we have processed tracks_cmd.left and tracks_cmd.right lets transform the result back to linear and angular velocities
                 cmd_vels.vl_ = tracks_cmd.left;
                 cmd_vels.vr_ = tracks_cmd.right;
                 cmd_vels.updateVOmega();
-                linear_vel_  = cmd_vels.v_; 
+                linear_vel_  = cmd_vels.v_;
                 angular_vel_ = cmd_vels.omega_;
-                
+
                 //ROS_INFO("Robot tracks vel computed");
-                
+
                 feedback_msg_.cmd_vel.linear.x   = linear_vel_;
                 feedback_msg_.cmd_vel.angular.z  = angular_vel_;
                 feedback_msg_.tracks_cmd.left    = tracks_cmd.left;
@@ -1492,16 +1492,16 @@ void TrajectoryControlActionServer::executeRotation(const trajectory_control_msg
 
             /// < publish the velocity command
             //tracks_vel_cmd_pub_.publish(tracks_cmd);
-            sendVelCommands(tracks_cmd, linear_vel_, angular_vel_); 
-            
-            
+            sendVelCommands(tracks_cmd, linear_vel_, angular_vel_);
+
+
             rate.sleep();
             time_counter += timestep;
             //ROS_INFO("Increments");
         }
 
-//#ifdef USE_PATH_MANAGER        
-//        //b_path_end = (path_manager_.isPathEnd()) && (current_track_error_xy < kRefErrorForStoppingPathManagerStep); // N.B.: this version generates problem cause the final resulting position controller will make the robot dance 
+//#ifdef USE_PATH_MANAGER
+//        //b_path_end = (path_manager_.isPathEnd()) && (current_track_error_xy < kRefErrorForStoppingPathManagerStep); // N.B.: this version generates problem cause the final resulting position controller will make the robot dance
 //        b_path_end = (path_manager_.isPathEnd());
 //#else
 //        b_path_end = index >= global_plan_msg_.poses.size();
@@ -1523,25 +1523,25 @@ void TrajectoryControlActionServer::executeRotation(const trajectory_control_msg
     if (b_done)
     {
         result_msg_.done = true;
-        
+
         getTracksVelCmd(0, 0, robot_width_, tracks_cmd);
         tracks_vel_cmd_pub_.publish(tracks_cmd);
         rate.sleep();
-        
+
         ROS_INFO("Trajectory Control: %s: Succeeded", action_name.c_str());
         global_plan_msg_.poses.clear();
         act_server_.setSucceeded(result_msg_);
 
         //planning_feedback_msg.task = "done";
         planning_feedback_msg.status = STATUS_SUCCESS;
-        
-        ROS_INFO("Trajectory Control: final rotation error %f", fabs(current_yaw_error)); 
+
+        ROS_INFO("Trajectory Control: final rotation error %f", fabs(current_yaw_error));
 
 //        {
 //            boost::recursive_mutex::scoped_lock locker(tf_robot_pose_map_mutex);
 //            tf::StampedTransform&  tf_robot_pose_map_to_check = (control_law_type_ == kInputOutputFL) ? (tf_robot_poseB_map_) : (tf_robot_pose_map_);
 //
-//            /// < N.B.: controller work only considering x and y components; here we consider the z componenent for sake of completeness 
+//            /// < N.B.: controller work only considering x and y components; here we consider the z componenent for sake of completeness
 //            final_3D_error = sqrt(pow(final_position.position.x - tf_robot_pose_map_to_check.getOrigin().getX(), 2) +
 //                                         pow(final_position.position.y - tf_robot_pose_map_to_check.getOrigin().getY(), 2) +
 //                                         pow(final_position.position.z - tf_robot_pose_map_to_check.getOrigin().getZ(), 2));
@@ -1593,7 +1593,7 @@ void TrajectoryControlActionServer::robotPathCallBack(const nav_msgs::PathConstP
     track_goal.path = *msg;
     ROS_INFO("Trajectory Control: starting new path - path size: %d",(int)track_goal.path.poses.size());
     b_local_path_ = false;
-    b_simple_rotation_ = false; 
+    b_simple_rotation_ = false;
     act_client_.sendGoal(track_goal);
 }
 
@@ -1606,7 +1606,7 @@ void TrajectoryControlActionServer::robotLocalPathCallBack(const nav_msgs::PathC
     track_goal.path = *msg;
     ROS_INFO("Trajectory Control: starting new path - path size: %d",(int)track_goal.path.poses.size());
     b_local_path_ = true;
-    b_simple_rotation_ = false;     
+    b_simple_rotation_ = false;
     act_client_.sendGoal(track_goal);
 }
 
@@ -1619,16 +1619,16 @@ void TrajectoryControlActionServer::robotRotationCallBack(const nav_msgs::PathCo
     trajectory_control_msgs::TrajectoryControlGoal track_goal;
     track_goal.path = *msg;
     ROS_INFO("Trajectory Control: starting new path - path size: %d",(int)track_goal.path.poses.size());
-    b_local_path_ = false; // a rotation is considered as a global path 
-    b_simple_rotation_ = true; 
+    b_local_path_ = false; // a rotation is considered as a global path
+    b_simple_rotation_ = true;
     act_client_.sendGoal(track_goal);
 }
 
 void TrajectoryControlActionServer::adaptTravVelCallback(const geometry_msgs::TwistStampedPtr& vel_msg)
 {
-    adapt_trav_vel_ = sat(vel_msg->twist.linear.x, -1. * kMaxTrackVelocity, kMaxTrackVelocity); // sat the input filter 
+    adapt_trav_vel_ = sat(vel_msg->twist.linear.x, -1. * kMaxTrackVelocity, kMaxTrackVelocity); // sat the input filter
     vel_reference_ = filter_vel_trav_.step(adapt_trav_vel_);
-    vel_reference_ = sat(vel_reference_, -1. * kMaxTrackVelocity, kMaxTrackVelocity); // sat the output of the filter 
+    vel_reference_ = sat(vel_reference_, -1. * kMaxTrackVelocity, kMaxTrackVelocity); // sat the output of the filter
 
     //vel_reference_ = filter(adapt_trav_vel_);
 }
@@ -1712,29 +1712,29 @@ void TrajectoryControlActionServer::goalAbortCallback(const std_msgs::Bool& msg)
 /// < DISABLED!!
 void TrajectoryControlActionServer::laserProximityCallback(const std_msgs::Bool& msg)
 {
-    return; /// < disabled EXIT POINT 
-    
-    decrease_vel_activation_time_ = ros::Time::now(); 
-        
-    if(b_decrease_vel_) return; /// < EXIT POINT 
-    
-    ROS_INFO("Trajectory Control: laser proximity on - reducing velocity ");
-    
-    b_decrease_vel_ = true; 
+    return; /// < disabled EXIT POINT
 
-    velocity_before_reduction_ = vel_reference_; // store the currently set reference velocity 
-    
+    decrease_vel_activation_time_ = ros::Time::now();
+
+    if(b_decrease_vel_) return; /// < EXIT POINT
+
+    ROS_INFO("Trajectory Control: laser proximity on - reducing velocity ");
+
+    b_decrease_vel_ = true;
+
+    velocity_before_reduction_ = vel_reference_; // store the currently set reference velocity
+
     vel_reference_ = vel_reference_* kLaserProximityReducedVelocityFactor; //  reduce velocity by kLaserProximityReducedVelocityFactor
 }
 
 void TrajectoryControlActionServer::closestObstaclePointCallback(const std_msgs::Float32MultiArray& msg)
 {
-    decrease_vel_activation_time_ = ros::Time::now(); 
- 
-    if(!b_closest_obst_vel_reduction_enable_) return; /// < EXIT POINT 
-            
+    decrease_vel_activation_time_ = ros::Time::now();
+
+    if(!b_closest_obst_vel_reduction_enable_) return; /// < EXIT POINT
+
     ROS_INFO("Trajectory Control: laser proximity on - reducing velocity ");
-        
+
     {
     boost::recursive_mutex::scoped_lock locker(closest_obst_point_mutex);
     //std_msgs::Float32MultiArray closest_point_msg; // <x,y,z,dist>
@@ -1743,41 +1743,41 @@ void TrajectoryControlActionServer::closestObstaclePointCallback(const std_msgs:
     closest_obst_point.setZ(msg.data[2]);
     closest_obst_dist = msg.data[3];
     }
-    
-    if(b_decrease_vel_) return; /// < EXIT POINT 
-        
-    b_decrease_vel_ = true; 
 
-    velocity_before_reduction_ = vel_reference_; // store the currently set reference velocity 
-    
-    vel_reference_ = vel_reference_* kLaserProximityReducedVelocityFactor; //  reduce velocity by kLaserProximityReducedVelocityFactor    
+    if(b_decrease_vel_) return; /// < EXIT POINT
+
+    b_decrease_vel_ = true;
+
+    velocity_before_reduction_ = vel_reference_; // store the currently set reference velocity
+
+    vel_reference_ = vel_reference_* kLaserProximityReducedVelocityFactor; //  reduce velocity by kLaserProximityReducedVelocityFactor
 }
 
 void TrajectoryControlActionServer::closestObstacleVelReductionEnableCallback(const std_msgs::Bool& msg)
-{    
+{
     b_closest_obst_vel_reduction_enable_ = (bool) msg.data;
-    
-    ROS_INFO_STREAM("Trajectory Control: velocity reduction enable " << b_closest_obst_vel_reduction_enable_);    
+
+    ROS_INFO_STREAM("Trajectory Control: velocity reduction enable " << b_closest_obst_vel_reduction_enable_);
 }
 
 
 void TrajectoryControlActionServer::checkLaserProximityAndUpdateVelocity()
-{   
-    if(!b_decrease_vel_) return; /// < EXIT POINT 
-    
+{
+    if(!b_decrease_vel_) return; /// < EXIT POINT
+
     ROS_INFO("Trajectory Control: laser proximity on - checking velocity ");
-        
+
     if(!b_closest_obst_vel_reduction_enable_)
     {
         b_decrease_vel_ = false;
-        vel_reference_ = velocity_before_reduction_; // restore the last set reference velocity 
+        vel_reference_ = velocity_before_reduction_; // restore the last set reference velocity
     }
-    
+
     ros::Duration elapsed_time_since_last_message = ros::Time::now() - decrease_vel_activation_time_;
     if(elapsed_time_since_last_message.toSec() > kLaserProximityReducedVelocityResetTime)
     {
         b_decrease_vel_ = false;
-        vel_reference_ = velocity_before_reduction_; // restore the last set reference velocity 
+        vel_reference_ = velocity_before_reduction_; // restore the last set reference velocity
     }
 }
 
@@ -1788,8 +1788,8 @@ void TrajectoryControlActionServer::checkLaserProximityAndUpdateVelocity()
 //    feedback_msg.node = "control";
 //    feedback_msg.task = "start";
 //
-//    b_local_path_ = true; 
-//            
+//    b_local_path_ = true;
+//
 //    act_client_.waitForServer();
 //
 ////    if (act_client_.getState() == actionlib::SimpleClientGoalState::ACTIVE) // current goal is running
@@ -1811,7 +1811,7 @@ void TrajectoryControlActionServer::checkLaserProximityAndUpdateVelocity()
 //}
 
 
-/// < other functions 
+/// < other functions
 
 void TrajectoryControlActionServer::tipOverAxis(tf::StampedTransform& fl, tf::StampedTransform& fr, tf::StampedTransform& rl, tf::StampedTransform& rr, std::vector<double>& coeff)
 {
@@ -1868,32 +1868,33 @@ void TrajectoryControlActionServer::tipOverAxis(tf::StampedTransform& fl, tf::St
 
 void TrajectoryControlActionServer::sendMultiRobotPath(const nav_msgs::Path& path_msg)
 {
-    trajectory_control_msgs::MultiRobotPath multi_robot_path_msg; 
+    trajectory_control_msgs::MultiRobotPath multi_robot_path_msg;
     multi_robot_path_msg.header   = path_msg.header;
-    multi_robot_path_msg.robot_id = robot_id_; 
+    multi_robot_path_msg.robot_id = robot_id_;
     multi_robot_path_msg.poses    = path_msg.poses;
     multi_robot_paths_pub_.publish(multi_robot_path_msg);
 }
 
 void TrajectoryControlActionServer::sendVelCommands(const nifti_robot_driver_msgs::Tracks& tracks_cmd, double lin_vel, double angular_vel)
 {
-    //b_use_teleop_mux_service_ = false; /// < to disable teleop velocity muxer
+    // b_use_teleop_mux_service_ = false; // < to disable teleop velocity muxer
     if(b_use_teleop_mux_service_)
-    { 
+    {
         sendCommandsToNiftiTelopMux(lin_vel,angular_vel);
     }
     else
     {
+        sendCommandsToNiftiTelopMux(lin_vel,angular_vel);
         tracks_vel_cmd_pub_.publish(tracks_cmd);
-    }   
-}    
+    }
+}
 
 void TrajectoryControlActionServer::sendCommandsToNiftiTelopMux(double lin_vel, double angular_vel)
 {
     geometry_msgs::Twist velocity_cmd;
     velocity_cmd.linear.x  = lin_vel;
     velocity_cmd.angular.z = angular_vel;
-    
+
     teleop_mux_pub_.publish(velocity_cmd);
 }
 

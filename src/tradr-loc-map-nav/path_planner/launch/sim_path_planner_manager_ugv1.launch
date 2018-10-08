@@ -11,7 +11,7 @@
   <arg name="enable_laser_proximity_callback" default="false"/>  <!-- enable a more conservative use of laser proximity info -->
 
 
-  <node launch-prefix="xterm -e gdb --args" name="path_planner_manager_$(arg robot_name)" pkg="path_planner" type="path_planner_manager" respawn="$(arg respawn_value)" output="screen">
+  <node name="path_planner_manager_$(arg robot_name)" pkg="path_planner" type="path_planner_manager" respawn="$(arg respawn_value)" output="screen">
 
         <param name = "robot_frame_name" value = "/$(arg robot_name)/base_link"/>
         <param name = "int_marker_server_name" value = "/$(arg simulator)/$(arg robot_name)/marker_controller"/>

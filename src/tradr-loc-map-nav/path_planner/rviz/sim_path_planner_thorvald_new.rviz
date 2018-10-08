@@ -5,7 +5,8 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Status1
-        - /UGV11
+        - /Thorvald1
+        - /Thorvald1/Status1
       Splitter Ratio: 0.482808024
     Tree Height: 817
   - Class: rviz/Selection
@@ -287,7 +288,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-      Name: UGV1
+      Name: Thorvald
       Robot Description: robot_description
       TF Prefix: ugv1
       Update Interval: 0

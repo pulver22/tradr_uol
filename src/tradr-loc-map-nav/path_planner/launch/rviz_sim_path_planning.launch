@@ -9,6 +9,6 @@
 			  <arg name="use_old_robot" value="true" />
 	</include>
 
-	<node launch-prefix="xterm -e gdb --args" name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find path_planner)/rviz/sim_path_planner.rviz" >
+	<node name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find path_planner)/rviz/sim_path_planner.rviz" >
 	</node>
 </launch>

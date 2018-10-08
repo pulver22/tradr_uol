@@ -231,6 +231,7 @@ b_use_teleop_mux_service_(false)
     /// < services
     teleop_mux_service_acquire_ = node_.serviceClient<nifti_teleop::Acquire>(teleop_mux_service_acquire_name_);
     teleop_mux_service_release_ = node_.serviceClient<nifti_teleop::Release>(teleop_mux_service_release_name_);
+    // Commented to allow using the Thorvald tmux
     if(b_use_teleop_mux_service_ && !teleop_mux_service_acquire_.waitForExistence(ros::Duration(5.0)) )
     {
         b_use_teleop_mux_service_ = false;
@@ -1884,7 +1885,7 @@ void TrajectoryControlActionServer::sendVelCommands(const nifti_robot_driver_msg
     }
     else
     {
-        sendCommandsToNiftiTelopMux(lin_vel,angular_vel);
+        // sendCommandsToNiftiTelopMux(lin_vel,angular_vel); // Riccardo: added here for Thorvald because the tmux service is not advertised
         tracks_vel_cmd_pub_.publish(tracks_cmd);
     }
 }

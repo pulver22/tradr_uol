@@ -11,7 +11,7 @@
 
     <arg name="use_at" default="false" /> <!-- boolean: true, false     use adaptive traversability -->
 
-    <arg name="use_teleop_mux" default="false" /> <!-- boolean: true, false     use teleop mux -->
+    <arg name="use_teleop_mux" default="true" /> <!-- boolean: true, false     use teleop mux -->
 
     <arg name="respawn_value" default="false" /> <!-- boolean: true, false -->
 
@@ -69,8 +69,8 @@
 
         <remap from = "/$(arg simulator)/$(arg robot_name)/tracks_vel_cmd" to = "/pp_vel" />
 
-        <remap from = "/mux_cmd_vel/acquire" to = "/$(arg simulator)/$(arg robot_name)//mux_cmd_vel/acquire" />
-        <remap from = "/mux_cmd_vel/release" to = "/$(arg simulator)/$(arg robot_name)//mux_cmd_vel/release" />
+        <!-- <remap from = "/mux_cmd_vel/acquire" to = "/$(arg simulator)/$(arg robot_name)//mux_cmd_vel/acquire" />
+        <remap from = "/mux_cmd_vel/release" to = "/$(arg simulator)/$(arg robot_name)//mux_cmd_vel/release" /> -->
 
     </node>
 

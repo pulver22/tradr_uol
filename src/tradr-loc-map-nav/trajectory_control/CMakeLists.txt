@@ -123,12 +123,12 @@ find_package(Boost REQUIRED COMPONENTS system thread)
 catkin_package(
   INCLUDE_DIRS
     include
-#  LIBRARIES trajectory_control
+  LIBRARIES trajectory_control
   CATKIN_DEPENDS
     ${TRAJECTORY_CONTROL_PKG_DEPS}
     message_runtime
   DEPENDS
-    #system_lib
+    system_lib
 )
 
 ###########

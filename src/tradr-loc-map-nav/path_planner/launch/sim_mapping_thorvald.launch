@@ -15,7 +15,7 @@
 
 
       <!-- octomap server -->
-	  <node name="mapping_$(arg robot_name)" pkg="octomap_server" type="octomap_server_node" respawn="$(arg respawn_value)" output="screen">
+	  <node name="mapping_$(arg robot_name)" pkg="ms_octomap_server" type="octomap_server_node" respawn="$(arg respawn_value)" output="screen">
 		 <param name = "base_frame_id" value = "$(arg tf_prefix)/base_link"/>
 		 <param name = "resolution" value = "0.075"/>
 		 <param name = "sensor_model/hit" value = "0.75"/>
@@ -25,7 +25,9 @@
          <!-- Input -->
 		 <!-- <remap from = "cloud_in" to = "$(arg octomap_cloud_in)"/> -->
 		 <!-- <remap from="cloud_in" to="/velodyne_points" /> -->
-		 <remap from="cloud_in" to="/thorvald_ii/kinect2/sd/points" />
+		 <!-- <remap from="cloud_in" to="/thorvald_ii/kinect2/sd/points" /> -->
+		 <remap from = "cloud_in1" to = "/thorvald_ii/kinect2/sd/points"/>
+		 <remap from = "cloud_in2" to = "/velodyne_points"/>
          <!-- Output -->
 		 <remap from = "octomap_point_cloud_centers" to = "/$(arg simulator)/$(arg robot_name)/local_map"/>
 	  </node>

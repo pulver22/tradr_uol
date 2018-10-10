@@ -93,10 +93,29 @@ $ rosrun rqt_reconfigure rqt_reconfigure
 
 A concise description of these parameters can be found in _~/trav_nav_indigo_ws/src/tradr-loc-map-nav/path_planner/README.md_ file
 
+### Octomap with three input channels
+
+If you want to use the version of Octomap modified to merge point cloud coming from different channels (sensors) in a single octree then you have to modify the 
+launch file where your octomap node is called as follows
+* Change the name of the package from 
+<pre><code class="c">
+pkg="octomap_server"
+</code></pre>
+to
+<pre><code class="c">
+pkg="ms_octomap_server"
+</code></pre>
+* Remap the point cloud_in1, cloud_in2 and cloud_in3 topics with the topics where the point clouds coming from differents sensors are published. For example 
+<pre><code class="c">
+&lt;remap from = "cloud_in1" to = "/point_cloud_from_laser1"/&gt
+&lt;remap from = "cloud_in2" to = "/point_cloud_from_laser2"/&gt
+&lt;remap from = "cloud_in3" to = "/point_cloud_from_rgbd_camera"/&gt
+</code></pre>
+
 ### Recompile PCL
+
 It seems that PCL needs to be recompiled with the -std=c++11 flag enabled in order to not cause segfaults on the initialization of boost.
 
 To correct this, you need to compile PCL from their git repo. One way to make PCL compile with the c++11 option is to add this to the CMakeLists.txt: SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-When you have the PCL compiled, you need to make install, and change CMakeLists.txt on path\_planner to use these libraries, this can be done by changing the line: find\_package(PCL 1.7 REQUIRED COMPONENTS common io) to find_package(PCL 1.8 REQUIRED COMPONENTS common io)"
-
+When you have the PCL compiled, you need to make install, and change CMakeLists.txt on path_planner to use these libraries, this can be done by changing the line: find_package(PCL 1.7 REQUIRED COMPONENTS common io) to find_package(PCL 1.8 REQUIRED COMPONENTS common io)"

@@ -16,7 +16,7 @@ keywords={augmented reality;mobile robots;path planning;pose estimation;SLAM (ro
 doi={10.1109/SSRR.2013.6719360},
 ISSN={2374-3247},
 month={Oct},}
-``` 
+```
 
 ## How to Install, Compile and Run
 
@@ -31,7 +31,7 @@ When you have the PCL compiled, you need to make install, and change CMakeLists.
 ### Install V-REP
 
 1. Download version 3.2.2 (tested) from http://coppeliarobotics.com/files/V-REP_PRO_V3_2_2_64_Linux.tar.gz <br />
-    You don't need to compile anything. Just extract the files in your V-REP installation folder and you are ready to execute the main launcher (vrep.sh) from there. 
+    You don't need to compile anything. Just extract the files in your V-REP installation folder and you are ready to execute the main launcher (vrep.sh) from there.
 
 2. Set the environment variable VREP_ROOT_DIR: <br />
     add in your .bashrc the following line <br />
@@ -74,7 +74,7 @@ $ roslaunch vrep_ugv_simulation vrep_ugv_simulation.launch
 2. Press the play button on V-REP
 
 3. Run the path planner with its RVIZ interface
-   - If you want to run the single-waypoint path planner, open a new terminal and run 
+   - If you want to run the single-waypoint path planner, open a new terminal and run
    <pre><code class="c">
    $ roslaunch path_planner sim_main_path_planner_ugv1.launch
    </code></pre>
@@ -89,12 +89,12 @@ $ roslaunch vrep_ugv_simulation vrep_ugv_simulation.launch
      - Green, a path has been found
      - Red, the path planner could not find a path
 
-   N.B.: a path to the designated goal can be actually computed if the shown traversability map actually "connect" the goal and the robot positions. 
+   N.B.: a path to the designated goal can be actually computed if the shown traversability map actually "connect" the goal and the robot positions.
    You may be required to wait few seconds till the traversability node actually complete the traversability map construction from the mapper inputs.
 
    Once a path has been found, the path planner will publish it towards the trajectory controller which will make the robot automatically follow the path.
 
-   - otherwise, if you want to run the multi-waypoint path planner, open a new terminal and run 
+   - otherwise, if you want to run the multi-waypoint path planner, open a new terminal and run
    <pre><code class="c">
    $ roslaunch path_planner sim_main_queue_path_planner_ugv1.launch
    </code></pre>
@@ -120,9 +120,9 @@ A concise description of these parameters can be found in _~/trav_nav_indigo_ws/
 
 ### Octomap with three input channels
 
-If you want to use the version of Octomap modified to merge point cloud coming from different channels (sensors) in a single octree then you have to modify the 
+If you want to use the version of Octomap modified to merge point cloud coming from different channels (sensors) in a single octree then you have to modify the
 launch file where your octomap node is called as follows
-* Change the name of the package from 
+* Change the name of the package from
 <pre><code class="c">
 pkg="octomap_server"
 </code></pre>
@@ -130,10 +130,9 @@ to
 <pre><code class="c">
 pkg="ms_octomap_server"
 </code></pre>
-* Remap the point cloud_in1, cloud_in2 and cloud_in3 topics with the topics where the point clouds coming from differents sensors are published. For example 
+* Remap the point cloud_in1, cloud_in2 and cloud_in3 topics with the topics where the point clouds coming from differents sensors are published. For example
 <pre><code class="c">
 &lt;remap from = "cloud_in1" to = "/point_cloud_from_laser1"/&gt
 &lt;remap from = "cloud_in2" to = "/point_cloud_from_laser2"/&gt
 &lt;remap from = "cloud_in3" to = "/point_cloud_from_rgbd_camera"/&gt
 </code></pre>
-

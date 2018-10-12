@@ -141,14 +141,10 @@ install(FILES
   launch/bagger_robot.launch
   launch/default-environment.yaml
   launch/default-robot.yaml
-  launch/emilia_all_on_robot.launch
   launch/eth-lab.yaml
   launch/eth-robot.yaml
   launch/robot_3d.launch
   launch/show_model.launch
-  launch/user_no_map_nav_vision.launch
-  launch/user_teleop_and_autonomy.launch
-  launch/user_teleop_only.launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 

@@ -1,7 +1,32 @@
 # trav_nav
-3D Autonomous Navigation 
+3D Autonomous Navigation
+
+If using this code, please cite the associated publication:
+
+```
+@INPROCEEDINGS{6719360,
+author={M. Gianni and G. Gonnelli and A. Sinha and M. Menna and F. Pirri},
+booktitle={2013 IEEE International Symposium on Safety, Security, and Rescue Robotics (SSRR)},
+title={An Augmented Reality approach for trajectory planning and control of tracked vehicles in rescue environments},
+year={2013},
+volume={},
+number={},
+pages={1-6},
+keywords={augmented reality;mobile robots;path planning;pose estimation;SLAM (robots);tracked vehicles;tracking;trajectory control;augmented reality;trajectory planning;tracked vehicles;rescue environments;human operator;AR-based interface;3D path planning;obstacle negotiation;3D movements;marker pen;trajectory tracking controller;localization system;position feedback;dead reckoning system;ICP-based SLAM;pose estimation;3D map;planning framework;autonomous robot navigation;Trajectory;Vehicles;Three-dimensional displays;Robot kinematics;Tracking;Planning;Augmented Reality;Trajectory tracking;Trajectory control;Unmanned Ground Vehicles;Urban Search;Rescue Robotics},
+doi={10.1109/SSRR.2013.6719360},
+ISSN={2374-3247},
+month={Oct},}
+``` 
 
 ## How to Install, Compile and Run
+
+### Recompile PCL
+
+It seems that PCL needs to be recompiled with the -std=c++11 flag enabled in order to not cause segfaults on the initialization of boost.
+
+To correct this, you need to compile PCL from their git repo. One way to make PCL compile with the c++11 option is to add this to the CMakeLists.txt: SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+When you have the PCL compiled, you need to make install, and change CMakeLists.txt on path_planner to use these libraries, this can be done by changing the line: find_package(PCL 1.7 REQUIRED COMPONENTS common io) to find_package(PCL 1.8 REQUIRED COMPONENTS common io)"
 
 ### Install V-REP
 
@@ -112,10 +137,3 @@ pkg="ms_octomap_server"
 &lt;remap from = "cloud_in3" to = "/point_cloud_from_rgbd_camera"/&gt
 </code></pre>
 
-### Recompile PCL
-
-It seems that PCL needs to be recompiled with the -std=c++11 flag enabled in order to not cause segfaults on the initialization of boost.
-
-To correct this, you need to compile PCL from their git repo. One way to make PCL compile with the c++11 option is to add this to the CMakeLists.txt: SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
-When you have the PCL compiled, you need to make install, and change CMakeLists.txt on path_planner to use these libraries, this can be done by changing the line: find_package(PCL 1.7 REQUIRED COMPONENTS common io) to find_package(PCL 1.8 REQUIRED COMPONENTS common io)"

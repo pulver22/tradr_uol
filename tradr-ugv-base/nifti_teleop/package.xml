@@ -28,7 +28,7 @@
   <run_depend>nifti_robot_driver_msgs</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>sensor_msgs</run_depend>
-  <!-- <run_depend>stamped_msgs</run_depend> -->
+  <run_depend>stamped_msgs</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>message_runtime</run_depend>

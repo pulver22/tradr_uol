@@ -56,7 +56,6 @@ install(PROGRAMS
   nodes/nifti_test_flippers.py
   nodes/nifti_mux_ctrl.py
   nodes/nifti_teleop_joy.py
-  nodes/nifti_teleop_xbox.py
   nodes/nth_action.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}/nodes
 )

@@ -75,7 +75,7 @@ include_directories( ${OGRE_INCLUDE_DIRS} )
 link_directories( ${OGRE_LIBRARY_DIRS} )
 
 ## PCL
-find_package(PCL 1.8 REQUIRED COMPONENTS common io)
+find_package(PCL REQUIRED COMPONENTS common io)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})

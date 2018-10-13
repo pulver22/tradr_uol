@@ -26,7 +26,7 @@ It seems that PCL needs to be recompiled with the -std=c++11 flag enabled in ord
 
 To correct this, you need to compile PCL from their git repo. One way to make PCL compile with the c++11 option is to add this to the CMakeLists.txt: SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-When you have the PCL compiled, you need to make install, and change CMakeLists.txt on path_planner to use these libraries, this can be done by changing the line: find_package(PCL 1.7 REQUIRED COMPONENTS common io) to find_package(PCL 1.8 REQUIRED COMPONENTS common io)"
+When you have the PCL compiled, you need to make install, and change CMakeLists.txt on path_planner to use these libraries, this can be done by changing the line: find_package(PCL 1.7 REQUIRED COMPONENTS common io) to find_package(PCL REQUIRED COMPONENTS common io)"
 
 ### Install V-REP
 

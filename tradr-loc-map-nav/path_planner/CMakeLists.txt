@@ -105,7 +105,7 @@ message(STATUS "Found Eigen3 in: ${EIGEN3_INCLUDE_DIR}")
 #find_package(PkgConfig)
 #pkg_search_module(Eigen3 REQUIRED eigen3)​
 
-find_package(PCL 1.8 REQUIRED COMPONENTS common io)
+find_package(PCL REQUIRED COMPONENTS common io)
 add_definitions(${PCL_DEFINITIONS})
 
 message(STATUS "==============================================================")

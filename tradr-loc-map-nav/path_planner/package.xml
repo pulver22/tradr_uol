@@ -55,7 +55,6 @@
   <build_depend>trajectory_control_msgs</build_depend>
   <build_depend>actionlib</build_depend>
   <build_depend>actionlib_msgs</build_depend>
-  <build_depend>trajectory_control_msgs</build_depend>
   <build_depend>robot_trajectory_saver_msgs</build_depend>
   <build_depend>wireless_network_msgs</build_depend>
   <build_depend>networkanalysis_msgs</build_depend>
@@ -76,7 +75,6 @@
   <run_depend>trajectory_control_msgs</run_depend>
   <run_depend>actionlib</run_depend>
   <run_depend>actionlib_msgs</run_depend>
-  <run_depend>trajectory_control_msgs</run_depend>
   <run_depend>robot_trajectory_saver_msgs</run_depend>
   <run_depend>wireless_network_msgs</run_depend>
   <run_depend>networkanalysis_msgs</run_depend>

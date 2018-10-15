@@ -301,6 +301,8 @@ add_dependencies(path_planner_manager  ${${PROJECT_NAME}_EXPORTED_TARGETS} ${cat
 add_dependencies(traversability ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 add_dependencies(compute_normals ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 
+#Add missing dependencies
+add_dependencies(path_planner trajectory_control_msgs_gencpp)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(path_planner_node

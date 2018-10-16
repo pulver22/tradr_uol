@@ -123,6 +123,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES path_following_msgs
+  LIBRARIES trajectory_control_msgs # Riccardo
   CATKIN_DEPENDS 
     ${PACKAGE_DEPS}
     message_runtime
@@ -137,6 +138,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include # Riccardo
   ${catkin_INCLUDE_DIRS}
 )
 

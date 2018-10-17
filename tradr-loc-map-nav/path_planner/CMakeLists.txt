@@ -228,6 +228,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
     include
+    include/${PROJECT_NAME}/
     ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME}
     #cfg/cpp/path_planner
     ${catkin_INCLUDE_DIRS}
@@ -342,18 +343,18 @@ endif()
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS path_planner path_planner_node
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+ install(TARGETS normalestimation dynamicjoinpcl clusterpcl conversionpcl travanalpcl pathplanning pathplanningutils
+   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ )
 
 ## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
+ install(DIRECTORY include/${PROJECT_NAME}/
+   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+   FILES_MATCHING PATTERN "*.h"
+   PATTERN ".svn" EXCLUDE
+ )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES

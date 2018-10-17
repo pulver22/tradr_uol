@@ -350,11 +350,25 @@ endif()
  )
 
 ## Mark cpp header files for installation
- install(DIRECTORY include/${PROJECT_NAME}/
+ install(DIRECTORY include/kdtree
    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-   FILES_MATCHING PATTERN "*.h"
-   PATTERN ".svn" EXCLUDE
+#   FILES_MATCHING PATTERN "*.h *.hpp"
+#   PATTERN ".svn" EXCLUDE
+)
+
+ install(DIRECTORY include/${PROJECT_NAME}
+   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#   FILES_MATCHING PATTERN "*.h *.hpp"
+#   PATTERN ".svn" EXCLUDE
+)
+
+
+install(DIRECTORY include/
+   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#   FILES_MATCHING PATTERN "*.h *.hpp"
+#   PATTERN ".svn" EXCLUDE
  )
+
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES

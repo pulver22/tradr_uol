@@ -26,7 +26,7 @@ It seems that PCL needs to be recompiled with the -std=c++11 flag enabled in ord
 
 To correct this, you need to compile PCL from their git repo. One way to make PCL compile with the c++11 option is to add this to the CMakeLists.txt: SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-When you have the PCL compiled, you need to make install, and change CMakeLists.txt on path_planner to use these libraries, this can be done by changing the line: find_package(PCL 1.7 REQUIRED COMPONENTS common io) to find_package(PCL REQUIRED COMPONENTS common io)"
+When you have the PCL compiled, you need to make install, and change CMakeLists.txt on tradr_path_planner to use these libraries, this can be done by changing the line: find_package(PCL 1.7 REQUIRED COMPONENTS common io) to find_package(PCL REQUIRED COMPONENTS common io)"
 
 ### Install V-REP
 
@@ -76,10 +76,10 @@ $ roslaunch vrep_ugv_simulation vrep_ugv_simulation.launch
 3. Run the path planner with its RVIZ interface
    - If you want to run the single-waypoint path planner, open a new terminal and run
    <pre><code class="c">
-   $ roslaunch path_planner sim_main_path_planner_ugv1.launch
+   $ roslaunch tradr_path_planner sim_main_tradr_path_planner_ugv1.launch
    </code></pre>
 
-   On RVIZ, you can set a goal for the planner by using the dedicated interactive marker. The interactive marker (a sphere) will appear over the robot when you launch the path_planner node.
+   On RVIZ, you can set a goal for the planner by using the dedicated interactive marker. The interactive marker (a sphere) will appear over the robot when you launch the tradr_path_planner node.
 
    Move the marker at your desired position (hold left click on it and move it w.r.t. image plane; if you also hold SHIFT button you will change the depth of the marker)
    Then right-click on it and select from the menu the action "Select Goal". If you want to abort the goal once is selected, select the action "Abort Goal" from the same menu.
@@ -96,7 +96,7 @@ $ roslaunch vrep_ugv_simulation vrep_ugv_simulation.launch
 
    - otherwise, if you want to run the multi-waypoint path planner, open a new terminal and run
    <pre><code class="c">
-   $ roslaunch path_planner sim_main_queue_path_planner_ugv1.launch
+   $ roslaunch tradr_path_planner sim_main_queue_tradr_path_planner_ugv1.launch
    </code></pre>
 
    On RVIZ:
@@ -116,7 +116,7 @@ To tune the parameters of these functionalities open a new terminal, source the 
 $ rosrun rqt_reconfigure rqt_reconfigure
 </code></pre>
 
-A concise description of these parameters can be found in _~/trav_nav_indigo_ws/src/tradr-loc-map-nav/path_planner/README.md_ file
+A concise description of these parameters can be found in _~/trav_nav_indigo_ws/src/tradr-loc-map-nav/tradr_path_planner/README.md_ file
 
 ### Octomap with three input channels
 

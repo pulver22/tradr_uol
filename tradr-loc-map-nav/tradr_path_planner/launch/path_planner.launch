@@ -1,0 +1,11 @@
+
+<launch>
+
+    <arg name="robot_name" default="ugv1" />		
+    
+    <arg name="respawn_value" default="false" /> <!-- boolean: true, false -->
+    
+	<node name="tradr_path_planner" pkg="tradr_path_planner" type="tradr_path_planner" respawn="$(arg respawn_value)"  output="screen">
+		<param name = "tradr_trajectory_control_action_server_name" value = "tradr_trajectory_control_action_server_$(arg robot_name)"/>
+	</node> 
+</launch>

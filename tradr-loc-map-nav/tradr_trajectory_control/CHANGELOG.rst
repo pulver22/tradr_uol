@@ -2,8 +2,8 @@
 Changelog for package tradr_trajectory_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.1 (2018-10-30)
+------------------
 * New dependencies on modified pcl (`#1 <https://github.com/LCAS/tradr_uol/issues/1>`_)
   * PCL modified
   * dep fix

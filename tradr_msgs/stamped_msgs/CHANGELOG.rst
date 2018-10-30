@@ -2,8 +2,8 @@
 Changelog for package stamped_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.4 (2018-10-30)
+------------------
 * renamed dirs for release process
 * Contributors: Marc Hanheide
 

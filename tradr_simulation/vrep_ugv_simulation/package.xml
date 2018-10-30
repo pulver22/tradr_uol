@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>vrep_ugv_simulation</name>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <description>The VREP UGV simulation package</description>
 
   <maintainer email="rpolvara@lincoln.ac.uk">Riccardo Polvara</maintainer>

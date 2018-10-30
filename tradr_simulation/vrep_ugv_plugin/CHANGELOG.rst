@@ -2,8 +2,8 @@
 Changelog for package vrep_ugv_plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.4 (2018-10-30)
+------------------
 * renamed dirs for release process
 * Contributors: Marc Hanheide
 

@@ -2,8 +2,13 @@
 Changelog for package tradr_trajectory_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.0.1 (2018-10-30)
 ------------------
+* all versions the same
+* changelogs
 * New dependencies on modified pcl (`#1 <https://github.com/LCAS/tradr_uol/issues/1>`_)
   * PCL modified
   * dep fix
@@ -14,4 +19,4 @@ Changelog for package tradr_trajectory_control
   * Refactoring path_planner and trajectory_control
   * Working on installing targets
   * Everything should work from the install folder
-* Contributors: Riccardo Polvara
+* Contributors: Marc Hanheide, Riccardo Polvara

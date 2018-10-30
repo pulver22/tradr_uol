@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>nifti_robot_description</name>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <description>The package containing the NIFTI robot 3D model data which can be loaded in Rviz.</description>
 
   <maintainer email="rpolvara@lincoln.ac.uk">Riccardo Polvara</maintainer>

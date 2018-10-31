@@ -85,7 +85,6 @@ set(tradr_path_planner_PKG_DEPS
   tradr_trajectory_control_msgs
   actionlib
   actionlib_msgs
-  tradr_trajectory_control_msgs
   robot_trajectory_saver_msgs
   wireless_network_msgs
   networkanalysis_msgs

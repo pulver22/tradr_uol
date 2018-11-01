@@ -2,8 +2,8 @@
 Changelog for package vrep_ugv_plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.7 (2018-11-01)
+------------------
 * Merge pull request `#3 <https://github.com/LCAS/tradr_uol/issues/3>`_ from LCAS/pcl_c11
   Package.xml have been updated
 * Merge with master

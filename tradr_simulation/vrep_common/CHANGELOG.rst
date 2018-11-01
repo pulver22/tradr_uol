@@ -2,6 +2,13 @@
 Changelog for package vrep_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge pull request `#3 <https://github.com/LCAS/tradr_uol/issues/3>`_ from LCAS/pcl_c11
+  Package.xml have been updated
+* Merge with master
+* Contributors: Riccardo Polvara
+
 1.0.6 (2018-10-30)
 ------------------
 

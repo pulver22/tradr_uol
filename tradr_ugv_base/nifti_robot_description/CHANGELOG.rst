@@ -2,6 +2,9 @@
 Changelog for package nifti_robot_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.0.6 (2018-10-30)
 ------------------
 

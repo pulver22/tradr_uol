@@ -2,6 +2,9 @@
 Changelog for package nifti_robot_driver_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.0.6 (2018-10-30)
 ------------------
 

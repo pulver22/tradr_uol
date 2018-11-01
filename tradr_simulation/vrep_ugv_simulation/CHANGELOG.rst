@@ -2,6 +2,9 @@
 Changelog for package vrep_ugv_simulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.0.6 (2018-10-30)
 ------------------
 

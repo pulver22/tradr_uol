@@ -2,6 +2,9 @@
 Changelog for package tradr_trajectory_control_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.0.6 (2018-10-30)
 ------------------
 

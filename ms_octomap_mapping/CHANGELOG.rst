@@ -2,6 +2,9 @@
 Changelog for package ms_octomap_mapping
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.0.6 (2018-10-30)
 ------------------
 

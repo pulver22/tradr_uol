@@ -35,6 +35,8 @@
 #include "Transform.h"
 #include "QueuePathPlanner.h"
 
+#include <tf/transform_listener.h>
+
 
 /// < PARAMETERS
 
@@ -1079,14 +1081,44 @@ int main(int argc, char **argv)
     /// < get a first robot pose in order to initialize the marker on robot starting position
     Transform transform("/map", robot_frame_id);
     tf::StampedTransform robot_pose;
-    try
+
+    // Copied from Transform.cpp to avoid race condition
+    tf::TransformListener *p_tf_listener_ = new tf::TransformListener(ros::Duration(10.0));
+    ros::Duration(5.0).sleep();
+    if( p_tf_listener_->waitForTransform("/map", robot_frame_id, ros::Time(),ros::Duration(5.0)) )
     {
-	robot_pose = transform.get();
+      ROS_WARN("LOOKING FOR TRANSFORM!!");
+    	try
+    	{
+    	    p_tf_listener_->lookupTransform("/map",robot_frame_id,ros::Time(),robot_pose);
+    	}
+      catch( tf::LookupException& ex )
+    	{
+    	    ROS_WARN("no transform available: %s\n",ex.what());
+    	    robot_pose = tf::StampedTransform();
+    	}
+    	catch( tf::ConnectivityException& ex )
+    	{
+    	    ROS_WARN("connectivity error: %s\n",ex.what());
+    	    robot_pose = tf::StampedTransform();
+    	}
+    	catch( tf::ExtrapolationException& ex )
+    	{
+    	    ROS_WARN("extrapolation error: %s\n",ex.what());
+    	    robot_pose = tf::StampedTransform();
+    	}
+
     }
-    catch(TransformException e )
-    {
-	ROS_WARN("%s",e.what());
-    }
+
+    // Original code (may lead to race conditions)
+    // try
+    // {
+	  //    robot_pose = transform.get();
+    // }
+    // catch(TransformException e )
+    // {
+	  //    ROS_WARN("%s",e.what());
+    // }
 
     p_planner_manager.reset(new PathPlannerManager);
     p_planner_manager->setFramesRobot("/map", robot_frame_id);

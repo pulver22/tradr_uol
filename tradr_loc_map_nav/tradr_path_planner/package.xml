@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>tradr_path_planner</name>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <description>The tradr_path_planner package - path planner </description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
@@ -59,6 +59,7 @@
   <build_depend>wireless_network_msgs</build_depend>
   <build_depend>networkanalysis_msgs</build_depend>
   <build_depend>eigen</build_depend>
+  <build_depend>boost</build_depend>
   <build_depend>pcl_catkin_c11</build_depend>
 
   <run_depend>dynamic_reconfigure</run_depend>
@@ -80,6 +81,7 @@
   <run_depend>wireless_network_msgs</run_depend>
   <run_depend>networkanalysis_msgs</run_depend>
   <run_depend>eigen</run_depend>
+  <run_depend>boost</run_depend>
   <run_depend>pcl_catkin_c11</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->

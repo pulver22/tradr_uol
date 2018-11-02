@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>networkanalysis_msgs</name>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <description>Network analysis package in ROS, messages. Developed for TRADR-TJEX</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
@@ -44,9 +44,11 @@
   <build_depend>std_msgs</build_depend>
   <build_depend>message_generation</build_depend>
   <build_depend>actionlib_msgs</build_depend>
+  <build_depend>actionlib</build_depend>
   <run_depend>message_runtime</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>actionlib_msgs</run_depend>
+  <run_depend>actionlib</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

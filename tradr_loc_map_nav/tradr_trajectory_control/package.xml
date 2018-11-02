@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>tradr_trajectory_control</name>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <description>The trajectory control package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
@@ -55,7 +55,8 @@
   <build_depend>visualization_msgs</build_depend>
   <build_depend>tradr_path_planner</build_depend>
   <build_depend>message_runtime</build_depend>
-  <build_depend>message_generation</build_depend>
+  <build_depend>boost</build_depend>
+  <!-- <build_depend>message_generation</build_depend> -->
 
   <run_depend>actionlib</run_depend>
   <run_depend>actionlib_msgs</run_depend>
@@ -70,8 +71,9 @@
   <run_depend>tf</run_depend>
   <run_depend>visualization_msgs</run_depend>
   <run_depend>tradr_path_planner</run_depend>
-  <run_depend>message_generation</run_depend>
+  <!-- <run_depend>message_generation</run_depend> -->
   <run_depend>message_runtime</run_depend>
+  <run_depend>boost</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

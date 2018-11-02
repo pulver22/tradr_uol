@@ -2,6 +2,11 @@
 Changelog for package stamped_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.0.8 (2018-11-02)
+------------------
+* Merge branch 'master' of https://github.com/LCAS/tradr_uol
+* Contributors: Riccardo Polvara
+
 1.0.7 (2018-11-01)
 ------------------
 

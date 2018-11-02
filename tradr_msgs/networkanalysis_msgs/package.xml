@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>networkanalysis_msgs</name>
-  <version>1.0.8</version>
+  <version>1.0.9</version>
   <description>Network analysis package in ROS, messages. Developed for TRADR-TJEX</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->

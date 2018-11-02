@@ -2,8 +2,8 @@
 Changelog for package vrep_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.9 (2018-11-02)
+------------------
 * Merge branch 'master' of https://github.com/LCAS/tradr_uol
 * Contributors: Riccardo Polvara
 

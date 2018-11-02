@@ -2,8 +2,8 @@
 Changelog for package tradr_path_planner_rviz_wp_plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.9 (2018-11-02)
+------------------
 * Merge branch 'master' of https://github.com/LCAS/tradr_uol
 * Waiting for a transform from map and robot
 * Contributors: Riccardo Polvara

@@ -2,8 +2,8 @@
 Changelog for package tradr_trajectory_control_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.8 (2018-11-02)
+------------------
 * Merge branch 'master' of https://github.com/LCAS/tradr_uol
 * Contributors: Riccardo Polvara
 

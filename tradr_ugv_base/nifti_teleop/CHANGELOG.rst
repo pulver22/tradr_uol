@@ -2,6 +2,11 @@
 Changelog for package nifti_teleop
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge branch 'master' of https://github.com/LCAS/tradr_uol
+* Contributors: Riccardo Polvara
+
 1.0.7 (2018-11-01)
 ------------------
 * Merge pull request `#3 <https://github.com/LCAS/tradr_uol/issues/3>`_ from LCAS/pcl_c11

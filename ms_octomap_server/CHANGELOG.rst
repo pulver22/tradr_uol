@@ -2,6 +2,12 @@
 Changelog for package ms_octomap_server
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge branch 'master' of https://github.com/LCAS/tradr_uol
+* Renaming install libraries
+* Contributors: Riccardo Polvara
+
 1.0.7 (2018-11-01)
 ------------------
 

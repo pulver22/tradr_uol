@@ -2,6 +2,11 @@
 Changelog for package nifti_robot_driver_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge branch 'master' of https://github.com/LCAS/tradr_uol
+* Contributors: Riccardo Polvara
+
 1.0.7 (2018-11-01)
 ------------------
 

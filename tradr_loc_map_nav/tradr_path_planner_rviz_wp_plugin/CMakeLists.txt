@@ -466,15 +466,17 @@ install(DIRECTORY include/
   # PATTERN ".svn" EXCLUDE
 )
 
+install(DIRECTORY mesh/
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}/${PROJECT_NAME}/mesh/
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-install(FILES
-	plugin_description.xml
-	plugin_description_SIM1.xml
-	plugin_description_SIM2.xml
-	plugin_description_SIM3.xml
-  # myfile1
-  # myfile2
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+#install(FILES
+#	plugin_description.xml
+#	plugin_description_SIM1.xml
+#	plugin_description_SIM2.xml
+#	plugin_description_SIM3.xml
+#  # myfile1
+#  # myfile2
+#  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
 #############

@@ -2,6 +2,12 @@
 Changelog for package robot_trajectory_saver_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge branch 'master' of https://github.com/LCAS/tradr_uol
+* Fix licenses
+* Contributors: Riccardo Polvara
+
 1.0.9 (2018-11-02)
 ------------------
 * Merge branch 'master' of https://github.com/LCAS/tradr_uol

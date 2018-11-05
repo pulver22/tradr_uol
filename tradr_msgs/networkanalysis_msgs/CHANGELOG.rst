@@ -2,6 +2,11 @@
 Changelog for package networkanalysis_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge branch 'master' of https://github.com/LCAS/tradr_uol
+* Contributors: Riccardo Polvara
+
 1.0.9 (2018-11-02)
 ------------------
 * Merge branch 'master' of https://github.com/LCAS/tradr_uol

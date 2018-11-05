@@ -2,6 +2,13 @@
 Changelog for package tradr_path_planner_rviz_wp_plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Trying to fix Rviz plugins
+* Merge branch 'master' of https://github.com/LCAS/tradr_uol
+* Fix licenses
+* Contributors: Riccardo Polvara
+
 1.0.9 (2018-11-02)
 ------------------
 * Merge branch 'master' of https://github.com/LCAS/tradr_uol

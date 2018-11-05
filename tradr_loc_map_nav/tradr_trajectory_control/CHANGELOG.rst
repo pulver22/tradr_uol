@@ -2,6 +2,12 @@
 Changelog for package tradr_trajectory_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge branch 'master' of https://github.com/LCAS/tradr_uol
+* Fix licenses
+* Contributors: Riccardo Polvara
+
 1.0.9 (2018-11-02)
 ------------------
 * Merge branch 'master' of https://github.com/LCAS/tradr_uol

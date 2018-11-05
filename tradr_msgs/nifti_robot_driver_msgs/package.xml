@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>nifti_robot_driver_msgs</name>
-  <version>1.0.9</version>
+  <version>1.0.10</version>
   <description>The nifti_robot_driver_msgs package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->

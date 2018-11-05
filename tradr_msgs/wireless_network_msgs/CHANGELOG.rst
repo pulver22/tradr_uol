@@ -2,8 +2,8 @@
 Changelog for package wireless_network_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.10 (2018-11-05)
+-------------------
 * Merge branch 'master' of https://github.com/LCAS/tradr_uol
 * Contributors: Riccardo Polvara
 

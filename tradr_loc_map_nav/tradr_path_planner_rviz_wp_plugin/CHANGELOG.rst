@@ -2,6 +2,12 @@
 Changelog for package tradr_path_planner_rviz_wp_plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge branch 'master' of https://github.com/LCAS/tradr_uol
+* Fixed mesh import but cones are not visible (need to check with queue planner
+* Contributors: Riccardo Polvara
+
 1.0.10 (2018-11-05)
 -------------------
 * Trying to fix Rviz plugins

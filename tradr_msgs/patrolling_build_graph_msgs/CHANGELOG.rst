@@ -2,6 +2,11 @@
 Changelog for package patrolling_build_graph_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge branch 'master' of https://github.com/LCAS/tradr_uol
+* Contributors: Riccardo Polvara
+
 1.0.10 (2018-11-05)
 -------------------
 * Merge branch 'master' of https://github.com/LCAS/tradr_uol

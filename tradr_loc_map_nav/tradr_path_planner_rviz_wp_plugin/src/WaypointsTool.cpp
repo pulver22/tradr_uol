@@ -35,7 +35,7 @@
 
 #ifndef DEFINING_ANOTHER_PLUGIN
     #include <pluginlib/class_list_macros.h>
-#include <QtWidgets>
+    #include <QtWidgets>
     PLUGINLIB_EXPORT_CLASS(tradr_path_planner_rviz_wp_plugin::WaypointsTool, rviz::Tool)
 #endif
 

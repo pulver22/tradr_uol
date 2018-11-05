@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(tradr_path_planner_rviz_wp_plugin)
 
-# SET(CMAKE_SKIP_INSTALL_RPATH OFF)
-# SET(CMAKE_SKIP_RPATH OFF)
-# SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+SET(CMAKE_SKIP_INSTALL_RPATH OFF)
+SET(CMAKE_SKIP_RPATH OFF)
+SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 ## Add support for C++11, supported in ROS Kinetic and newer
 add_definitions(-std=c++11)
@@ -27,6 +27,8 @@ set(PKG_REQUIRED_COMPONENTS
   dynamic_reconfigure
   exploration_msgs
   wireless_network_msgs
+  pcl_ros_c11
+  pcl_conversions_c11
 )
 
 ## Find catkin macros and libraries
@@ -79,10 +81,14 @@ link_directories( ${OGRE_LIBRARY_DIRS} )
 ## PCL
 find_package(pcl_catkin_c11 REQUIRED PATHS /opt/ros/kinetic/pcl_c11)
 find_package(PCL 1.8 REQUIRED PATHS /opt/ros/kinetic/pcl_c11/share/pcl-1.8/ QUIET COMPONENTS common io)
-# Removed because causing SEGFAULT
-# include_directories(${PCL_INCLUDE_DIRS})
-# link_directories(${PCL_LIBRARY_DIRS})
-#add_definitions(${PCL_DEFINITIONS})
+if( PCL_FOUND )
+  include_directories( ${PCL_INCLUDE_DIRS} )
+  add_definitions( ${PCL_DEFINITIONS} )
+  # For Use Not PreCompiled Features
+  #add_definitions( -DPCL_NO_PRECOMPILE )
+  link_directories( ${PCL_LIBRARY_DIRS} )
+  # target_link_libraries( ${PROJECT_NAME} ${PCL_LIBRARIES} )
+endif()
 
 message(STATUS "==============================================================")
 message(STATUS "Found PCL in: ${PCL_INCLUDE_DIRS}")
@@ -204,6 +210,17 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
+)
+
+link_directories(
+    ${PCL_LIBRARY_DIRS}
+                ${CMAKE_SOURCE_DIR}/lib
+)
+
+set(PCL_LIBS_DEPS
+    ${pcl_ros_c11_LIBRARIES}
+    ${PCL_LIBRARIES}
 )
 
 # Don't forget to include output directory, otherwise
@@ -413,10 +430,10 @@ add_dependencies(${PROJECT_NAME_SIM3} ${${PROJECT_NAME_SIM3}_EXPORTED_TARGETS} $
 ## library and names the actual file something like
 ## "librviz_plugin_tutorials.so", or whatever is appropriate for your
 ## particular OS.
-target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES} ${OGRE_LIBRARIES} ${PCL_LIBRARIES} ${catkin_LIBRARIES})
-target_link_libraries(${PROJECT_NAME_SIM1} ${QT_LIBRARIES} ${OGRE_LIBRARIES} ${PCL_LIBRARIES} ${catkin_LIBRARIES})
-target_link_libraries(${PROJECT_NAME_SIM2} ${QT_LIBRARIES} ${OGRE_LIBRARIES} ${PCL_LIBRARIES} ${catkin_LIBRARIES})
-target_link_libraries(${PROJECT_NAME_SIM3} ${QT_LIBRARIES} ${OGRE_LIBRARIES} ${PCL_LIBRARIES} ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES} ${OGRE_LIBRARIES} ${PCL_LIBS_DEPS} ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME_SIM1} ${QT_LIBRARIES} ${OGRE_LIBRARIES} ${PCL_LIBS_DEPS} ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME_SIM2} ${QT_LIBRARIES} ${OGRE_LIBRARIES} ${PCL_LIBS_DEPS} ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME_SIM3} ${QT_LIBRARIES} ${OGRE_LIBRARIES} ${PCL_LIBS_DEPS} ${catkin_LIBRARIES})
 ## END_TUTORIAL
 
 
